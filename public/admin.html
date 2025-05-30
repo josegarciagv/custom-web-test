@@ -4448,7 +4448,8 @@
       // Components management
       addComponentButton.addEventListener("click", () => {
         addComponentItem({
-          type: "custom",
+          type: "text",
+
           enabled: true,
           title: "",
           text: "",
@@ -4456,63 +4457,64 @@
           buttonUrl: "",
           icon: "",
           color: "",
+          bgColor: "",
+          textColor: "",
+          videoUrl: "",
+
           image: "",
         });
       });
 
       function addComponentItem(comp) {
+        const index = componentsList.children.length;
+
         const wrapper = document.createElement("div");
         wrapper.className = "component-admin-item";
 
         wrapper.innerHTML = `
+          <label>Enabled <input type="checkbox" class="comp-enabled" ${
+            comp.enabled ? "checked" : ""
+          } /></label>
+          <select class="comp-type">
+            <option value="text" ${comp.type === "text" ? "selected" : ""}>Text</option>
+            <option value="video" ${comp.type === "video" ? "selected" : ""}>YouTube Video</option>
+          </select>
+          <input type="text" class="comp-title" placeholder="Title" value="${
+            comp.title || ""
+          }" />
+          <textarea class="comp-text" placeholder="Text">${comp.text || ""}</textarea>
+          <input type="text" class="comp-buttonText" placeholder="Button Text" value="${
+            comp.buttonText || ""
+          }" />
+          <input type="text" class="comp-buttonUrl" placeholder="Button URL" value="${
+            comp.buttonUrl || ""
+          }" />
+          <input type="text" class="comp-icon" placeholder="Icon" value="${
+            comp.icon || ""
+          }" />
+          <input type="text" class="comp-color" placeholder="Accent Color" value="${
+            comp.color || ""
+          }" />
+          <input type="text" class="comp-bgColor" placeholder="Background Color" value="${
+            comp.bgColor || ""
+          }" />
+          <input type="text" class="comp-textColor" placeholder="Text Color" value="${
+            comp.textColor || ""
+          }" />
+          <input type="text" class="comp-videoUrl" placeholder="YouTube URL" value="${
+            comp.videoUrl || ""
+          }" />
+          <input type="text" class="comp-image" placeholder="Image URL" value="${
+            comp.image || ""
+          }" />
+          <button type="button" class="button danger-button comp-delete">Delete</button>
+        `;
 
-          <div class="comp-fields">
-            <label>Enabled <input type="checkbox" class="comp-enabled" ${
-              comp.enabled ? "checked" : ""
-            } /></label>
-            <input type="text" class="comp-title" placeholder="Title" value="${
-              comp.title || ""
-            }" />
-            <textarea class="comp-text" placeholder="Text">${comp.text || ""}</textarea>
-            <input type="text" class="comp-buttonText" placeholder="Button Text" value="${
-              comp.buttonText || ""
-            }" />
-            <input type="text" class="comp-buttonUrl" placeholder="Button URL" value="${
-              comp.buttonUrl || ""
-            }" />
-            <input type="text" class="comp-icon" placeholder="Icon" value="${
-              comp.icon || ""
-            }" />
-            <input type="text" class="comp-color" placeholder="Color" value="${
-              comp.color || ""
-            }" />
-            <input type="text" class="comp-image" placeholder="Image URL" value="${
-              comp.image || ""
-            }" />
-            <textarea class="comp-gallery" placeholder="Gallery image URLs (comma separated)">${
-              comp.gallery ? comp.gallery.join(",") : ""
-            }</textarea>
-          </div>
-          <div class="comp-actions">
-            <button type="button" class="button danger-button comp-delete"><i class="fas fa-trash"></i></button>
-            <button type="button" class="button secondary-button comp-up"><i class="fas fa-arrow-up"></i></button>
-            <button type="button" class="button secondary-button comp-down"><i class="fas fa-arrow-down"></i></button>
-          </div>`;
 
         wrapper.querySelector(".comp-delete").addEventListener("click", () => {
           if (confirm("Delete this component?")) {
             wrapper.remove();
           }
-        });
-
-        wrapper.querySelector(".comp-up").addEventListener("click", () => {
-          const prev = wrapper.previousElementSibling;
-          if (prev) componentsList.insertBefore(wrapper, prev);
-        });
-
-        wrapper.querySelector(".comp-down").addEventListener("click", () => {
-          const next = wrapper.nextElementSibling;
-          if (next) componentsList.insertBefore(next, wrapper);
         });
 
 
@@ -4529,21 +4531,18 @@
         componentsList.querySelectorAll(".component-admin-item").forEach((el) => {
           components.push({
             enabled: el.querySelector(".comp-enabled").checked,
+            type: el.querySelector(".comp-type").value,
+
             title: el.querySelector(".comp-title").value,
             text: el.querySelector(".comp-text").value,
             buttonText: el.querySelector(".comp-buttonText").value,
             buttonUrl: el.querySelector(".comp-buttonUrl").value,
             icon: el.querySelector(".comp-icon").value,
             color: el.querySelector(".comp-color").value,
+            bgColor: el.querySelector(".comp-bgColor").value,
+            textColor: el.querySelector(".comp-textColor").value,
+            videoUrl: el.querySelector(".comp-videoUrl").value,
             image: el.querySelector(".comp-image").value,
-
-            gallery: el
-              .querySelector(".comp-gallery")
-              .value.split(",")
-              .map((t) => t.trim())
-              .filter((t) => t),
-
-            type: "custom",
           });
         });
 

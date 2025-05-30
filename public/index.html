@@ -409,6 +409,11 @@
         color: var(--text-color);
       }
 
+      .component-item iframe {
+        margin-top: 1rem;
+        border-radius: 8px;
+      }
+
       .component-button {
         display: inline-block;
         margin-top: 1rem;
@@ -418,20 +423,6 @@
         border-radius: 4px;
         text-decoration: none;
       }
-
-      .component-gallery {
-        display: flex;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-        margin-top: 1rem;
-        justify-content: center;
-      }
-
-      .component-gallery-image {
-        max-width: 120px;
-        border-radius: 4px;
-      }
-
 
       .services-section {
         padding: 3rem 0;
@@ -2502,8 +2493,14 @@
 
           const section = document.createElement("div");
           section.className = "component-item";
-          if (comp.color) {
+
+          if (comp.bgColor) {
+            section.style.backgroundColor = comp.bgColor;
+          } else if (comp.color) {
             section.style.backgroundColor = comp.color;
+          }
+          if (comp.textColor) {
+            section.style.color = comp.textColor;
           }
 
 
@@ -2518,18 +2515,15 @@
           }
 
 
-          if (comp.gallery && Array.isArray(comp.gallery) && comp.gallery.length > 0) {
-            const galleryWrapper = document.createElement("div");
-            galleryWrapper.className = "component-gallery";
-            comp.gallery.forEach((imgSrc) => {
-              const img = document.createElement("img");
-              img.src = imgSrc;
-              img.className = "component-gallery-image";
-              galleryWrapper.appendChild(img);
-            });
-            section.appendChild(galleryWrapper);
+          if (comp.type === "video" && comp.videoUrl) {
+            const iframe = document.createElement("iframe");
+            iframe.src = comp.videoUrl;
+            iframe.width = "100%";
+            iframe.height = "315";
+            iframe.style.border = "none";
+            iframe.allowFullscreen = true;
+            section.appendChild(iframe);
           }
-
 
           if (comp.buttonText && comp.buttonUrl) {
             const btn = document.createElement("a");
@@ -2539,6 +2533,24 @@
             btn.target = "_blank";
             section.appendChild(btn);
           }
+
+
+          if (comp.image) {
+            const img = document.createElement("img");
+            img.src = comp.image;
+            img.alt = comp.title || "component";
+            img.style.maxWidth = "100%";
+            img.style.marginTop = "1rem";
+            section.appendChild(img);
+          } else if (comp.icon) {
+            const iconEl = document.createElement("i");
+            iconEl.className = comp.icon;
+            iconEl.style.display = "block";
+            iconEl.style.fontSize = "2rem";
+            iconEl.style.marginTop = "1rem";
+            section.appendChild(iconEl);
+          }
+
 
           container.appendChild(section);
         });

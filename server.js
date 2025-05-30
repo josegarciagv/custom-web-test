@@ -164,7 +164,9 @@ const componentSchema = new mongoose.Schema({
   image: { type: String },
   icon: { type: String },
   color: { type: String },
-  gallery: [{ type: String }]
+  bgColor: { type: String },
+  textColor: { type: String },
+  videoUrl: { type: String }
 
 })
 
