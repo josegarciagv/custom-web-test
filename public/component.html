@@ -1,10 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Component Library</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {font-family: 'Inter', Arial, sans-serif; background: #f9fafb; padding: 20px;}
+    .component-preview {border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin-bottom: 40px; background: #fff;}
+  </style>
+</head>
+<body>
 <!-- Email Service Promotion Widget - Dynamic Colors -->
-<div class="email-service-promotion">
+<div class="component-preview">
+  <div class="email-service-promotion">
     <div class="email-promo-text">
       <h3>Try Our Email Service For Free</h3>
       <p>Send unlimited emails with our professional email service. No setup required!</p>
     </div>
-    
     <div class="email-button-container">
       <div class="floating-email">
         <i class="fas fa-envelope"></i>
@@ -15,214 +28,127 @@
       </a>
     </div>
   </div>
-  
-  <style>
-  .email-service-promotion {
-    text-align: center;
-    margin: 30px 0;
-    padding: 25px;
-    background: var(--secondary-bg);
-    border-radius: 16px;
-    border: 1px solid var(--border-color);
-    font-family: 'Inter', Arial, sans-serif;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  }
-  
-  .email-service-promotion::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(79, 70, 229, 0.05) 0%, transparent 70%);
-    animation: backgroundPulse 4s ease-in-out infinite;
-  }
-  
-  @keyframes backgroundPulse {
-    0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.3; }
-    50% { transform: scale(1.1) rotate(180deg); opacity: 0.6; }
-  }
-  
-  .email-promo-text {
-    position: relative;
-    z-index: 2;
-    margin-bottom: 20px;
-  }
-  
-  .email-promo-text h3 {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--text-color);
-    margin: 0 0 8px 0;
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    filter: brightness(1.1);
-  }
-  
-  .email-promo-text p {
-    font-size: 16px;
-    color: var(--text-color);
-    opacity: 0.8;
-    margin: 0;
-    line-height: 1.5;
-  }
-  
-  .email-button-container {
-    position: relative;
-    z-index: 2;
-    display: inline-block;
-  }
-  
-  .floating-email {
-    position: absolute;
-    top: -15px;
-    right: -15px;
-    width: 30px;
-    height: 30px;
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-color));
-    filter: brightness(1.2);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 14px;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
-    animation: floatingEmail 3s ease-in-out infinite;
-    z-index: 3;
-  }
-  
-  @keyframes floatingEmail {
-    0%, 100% { 
-      transform: translateY(0px) rotate(0deg); 
-      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
-    }
-    25% { 
-      transform: translateY(-8px) rotate(5deg); 
-      box-shadow: 0 8px 20px rgba(79, 70, 229, 0.6);
-    }
-    50% { 
-      transform: translateY(-12px) rotate(0deg); 
-      box-shadow: 0 12px 25px rgba(79, 70, 229, 0.8);
-    }
-    75% { 
-      transform: translateY(-8px) rotate(-5deg); 
-      box-shadow: 0 8px 20px rgba(79, 70, 229, 0.6);
-    }
-  }
-  
-  .email-service-btn {
-    display: inline-block;
-    background: var(--primary-color);
-    color: white;
-    padding: 14px 28px;
-    border-radius: 12px;
-    text-decoration: none;
-    font-family: 'Inter', Arial, sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.3);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .email-service-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.5s ease;
-  }
-  
-  .email-service-btn:hover::before {
-    left: 100%;
-  }
-  
-  .email-service-btn:hover {
-    background: var(--primary-color);
-    filter: brightness(0.9);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
-  }
-  
-  .email-service-btn:active {
-    transform: translateY(0px);
-    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
-  }
-  
-  .email-service-btn i {
-    margin-right: 10px;
-    font-size: 18px;
-    animation: rocketBounce 2s ease-in-out infinite;
-  }
-  
-  @keyframes rocketBounce {
-    0%, 100% { transform: translateX(0px); }
-    50% { transform: translateX(3px); }
-  }
-  
-  /* Responsive */
-  @media (max-width: 768px) {
-    .email-service-promotion {
-      margin: 20px 0;
-      padding: 20px;
-    }
-    
-    .email-promo-text h3 {
-      font-size: 20px;
-    }
-    
-    .email-promo-text p {
-      font-size: 14px;
-    }
-    
-    .email-service-btn {
-      padding: 12px 24px;
-      font-size: 15px;
-    }
-    
-    .floating-email {
-      width: 25px;
-      height: 25px;
-      font-size: 12px;
-      top: -12px;
-      right: -12px;
-    }
-  }
-  
-  /* Adaptación especial para temas muy oscuros */
-  @media (prefers-color-scheme: dark) {
-    .email-service-promotion {
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-    
-    .email-promo-text h3 {
-      filter: brightness(1.3);
-    }
-  }
-  </style>
-  
-  <!-- Font Awesome CDN (add this once if not already included in the page) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  
-  
-  <!-- Adalo Promotion Widget - Dynamic Colors -->
+</div>
+<style>
+.email-service-promotion {
+  text-align: center;
+  margin: 30px 0;
+  padding: 25px;
+  background: var(--secondary-bg);
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  font-family: 'Inter', Arial, sans-serif;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+.email-service-promotion::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(79, 70, 229, 0.05) 0%, transparent 70%);
+  animation: backgroundPulse 4s ease-in-out infinite;
+}
+@keyframes backgroundPulse {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.3; }
+  50% { transform: scale(1.1) rotate(180deg); opacity: 0.6; }
+}
+.email-promo-text { position: relative; z-index: 2; margin-bottom: 20px; }
+.email-promo-text h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0 0 8px 0;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: brightness(1.1);
+}
+.email-promo-text p { font-size: 16px; color: var(--text-color); opacity: 0.8; margin: 0; line-height: 1.5; }
+.email-button-container { position: relative; z-index: 2; display: inline-block; }
+.floating-email {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-color));
+  filter: brightness(1.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+  animation: floatingEmail 3s ease-in-out infinite;
+  z-index: 3;
+}
+@keyframes floatingEmail {
+  0%, 100% { transform: translateY(0px) rotate(0deg); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4); }
+  25% { transform: translateY(-8px) rotate(5deg); box-shadow: 0 8px 20px rgba(79, 70, 229, 0.6); }
+  50% { transform: translateY(-12px) rotate(0deg); box-shadow: 0 12px 25px rgba(79, 70, 229, 0.8); }
+  75% { transform: translateY(-8px) rotate(-5deg); box-shadow: 0 8px 20px rgba(79, 70, 229, 0.6); }
+}
+.email-service-btn {
+  display: inline-block;
+  background: var(--primary-color);
+  color: white;
+  padding: 14px 28px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-family: 'Inter', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.email-service-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+.email-service-btn:hover::before { left: 100%; }
+.email-service-btn:hover {
+  background: var(--primary-color);
+  filter: brightness(0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
+}
+.email-service-btn:active { transform: translateY(0px); box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3); }
+.email-service-btn i { margin-right: 10px; font-size: 18px; animation: rocketBounce 2s ease-in-out infinite; }
+@keyframes rocketBounce { 0%, 100% { transform: translateX(0px); } 50% { transform: translateX(3px); } }
+@media (max-width: 768px) {
+  .email-service-promotion { margin: 20px 0; padding: 20px; }
+  .email-promo-text h3 { font-size: 20px; }
+  .email-promo-text p { font-size: 14px; }
+  .email-service-btn { padding: 12px 24px; font-size: 15px; }
+  .floating-email { width: 25px; height: 25px; font-size: 12px; top: -12px; right: -12px; }
+}
+@media (prefers-color-scheme: dark) {
+  .email-service-promotion { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); }
+  .email-promo-text h3 { filter: brightness(1.3); }
+}
+</style>
+
+<!-- Adalo Promotion Widget - Dynamic Colors -->
+<div class="component-preview">
   <div class="adalo-promotion-widget">
     <div class="adalo-promo-text">
       <h3>Learn More About Adalo</h3>
       <p>The best no-code platform to build mobile apps without coding. Create stunning apps in minutes!</p>
     </div>
-    
     <div class="adalo-button-container">
       <div class="floating-mobile">
         <i class="fas fa-mobile-alt"></i>
@@ -238,260 +164,125 @@
       </a>
     </div>
   </div>
-  
-  <style>
-  .adalo-promotion-widget {
-    text-align: center;
-    margin: 30px 0;
-    padding: 25px;
-    background: var(--secondary-bg);
-    border-radius: 16px;
-    border: 1px solid var(--border-color);
-    font-family: 'Inter', Arial, sans-serif;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  }
-  
-  .adalo-promotion-widget::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(79, 70, 229, 0.05) 0%, transparent 70%);
-    animation: backgroundPulse 4s ease-in-out infinite;
-  }
-  
-  @keyframes backgroundPulse {
-    0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.3; }
-    50% { transform: scale(1.1) rotate(180deg); opacity: 0.6; }
-  }
-  
-  .adalo-promo-text {
-    position: relative;
-    z-index: 2;
-    margin-bottom: 20px;
-  }
-  
-  .adalo-promo-text h3 {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--text-color);
-    margin: 0 0 8px 0;
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    filter: brightness(1.1);
-  }
-  
-  .adalo-promo-text p {
-    font-size: 16px;
-    color: var(--text-color);
-    opacity: 0.8;
-    margin: 0;
-    line-height: 1.5;
-  }
-  
-  .adalo-button-container {
-    position: relative;
-    z-index: 2;
-    display: inline-block;
-  }
-  
-  .floating-mobile {
-    position: absolute;
-    top: -20px;
-    left: -20px;
-    width: 35px;
-    height: 35px;
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-color));
-    filter: brightness(1.2);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 16px;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
-    animation: floatingMobile 3s ease-in-out infinite;
-    z-index: 3;
-  }
-  
-  @keyframes floatingMobile {
-    0%, 100% { 
-      transform: translateY(0px) rotate(0deg); 
-      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
-    }
-    25% { 
-      transform: translateY(-8px) rotate(3deg); 
-      box-shadow: 0 8px 20px rgba(79, 70, 229, 0.6);
-    }
-    50% { 
-      transform: translateY(-12px) rotate(0deg); 
-      box-shadow: 0 12px 25px rgba(79, 70, 229, 0.8);
-    }
-    75% { 
-      transform: translateY(-8px) rotate(-3deg); 
-      box-shadow: 0 8px 20px rgba(79, 70, 229, 0.6);
-    }
-  }
-  
-  .floating-blocks {
-    position: absolute;
-    top: -15px;
-    right: -25px;
-    z-index: 3;
-  }
-  
-  .block {
-    width: 12px;
-    height: 12px;
-    border-radius: 3px;
-    position: absolute;
-    animation: floatingBlocks 2s ease-in-out infinite;
-  }
-  
-  .block-1 {
-    background: var(--primary-color);
-    top: 0;
-    right: 0;
-    animation-delay: 0s;
-  }
-  
-  .block-2 {
-    background: var(--primary-color);
-    filter: brightness(1.3);
-    top: 5px;
-    right: 15px;
-    animation-delay: 0.3s;
-  }
-  
-  .block-3 {
-    background: var(--primary-color);
-    filter: brightness(0.8);
-    top: 15px;
-    right: 8px;
-    animation-delay: 0.6s;
-  }
-  
-  @keyframes floatingBlocks {
-    0%, 100% { 
-      transform: translateY(0px) scale(1); 
-      opacity: 0.8;
-    }
-    50% { 
-      transform: translateY(-8px) scale(1.1); 
-      opacity: 1;
-    }
-  }
-  
-  .adalo-service-btn {
-    display: inline-block;
-    background: var(--primary-color);
-    color: white;
-    padding: 14px 28px;
-    border-radius: 12px;
-    text-decoration: none;
-    font-family: 'Inter', Arial, sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.3);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .adalo-service-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.5s ease;
-  }
-  
-  .adalo-service-btn:hover::before {
-    left: 100%;
-  }
-  
-  .adalo-service-btn:hover {
-    background: var(--primary-color);
-    filter: brightness(0.9);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
-  }
-  
-  .adalo-service-btn:active {
-    transform: translateY(0px);
-    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
-  }
-  
-  .adalo-service-btn i {
-    margin-right: 10px;
-    font-size: 18px;
-    animation: rocketBounce 2s ease-in-out infinite;
-  }
-  
-  @keyframes rocketBounce {
-    0%, 100% { transform: translateX(0px); }
-    50% { transform: translateX(3px); }
-  }
-  
-  /* Responsive */
-  @media (max-width: 768px) {
-    .adalo-promotion-widget {
-      margin: 20px 0;
-      padding: 20px;
-    }
-    
-    .adalo-promo-text h3 {
-      font-size: 20px;
-    }
-    
-    .adalo-promo-text p {
-      font-size: 14px;
-    }
-    
-    .adalo-service-btn {
-      padding: 12px 24px;
-      font-size: 15px;
-    }
-    
-    .floating-mobile {
-      width: 30px;
-      height: 30px;
-      font-size: 14px;
-      top: -15px;
-      left: -15px;
-    }
-    
-    .floating-blocks {
-      top: -12px;
-      right: -20px;
-    }
-    
-    .block {
-      width: 10px;
-      height: 10px;
-    }
-  }
-  
-  /* Adaptación especial para temas muy oscuros */
-  @media (prefers-color-scheme: dark) {
-    .adalo-promotion-widget {
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-    
-    .adalo-promo-text h3 {
-      filter: brightness(1.3);
-    }
-  }
-  </style>
-  
-  <!-- Font Awesome CDN (add this once if not already included in the page) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</div>
+<style>
+.adalo-promotion-widget {
+  text-align: center;
+  margin: 30px 0;
+  padding: 25px;
+  background: var(--secondary-bg);
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  font-family: 'Inter', Arial, sans-serif;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+.adalo-promotion-widget::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(79, 70, 229, 0.05) 0%, transparent 70%);
+  animation: backgroundPulse 4s ease-in-out infinite;
+}
+.adalo-promo-text { position: relative; z-index: 2; margin-bottom: 20px; }
+.adalo-promo-text h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0 0 8px 0;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: brightness(1.1);
+}
+.adalo-promo-text p { font-size: 16px; color: var(--text-color); opacity: 0.8; margin: 0; line-height: 1.5; }
+.adalo-button-container { position: relative; z-index: 2; display: inline-block; }
+.floating-mobile {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  width: 35px;
+  height: 35px;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-color));
+  filter: brightness(1.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+  animation: floatingMobile 3s ease-in-out infinite;
+  z-index: 3;
+}
+@keyframes floatingMobile {
+  0%, 100% { transform: translateY(0px) rotate(0deg); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4); }
+  25% { transform: translateY(-8px) rotate(3deg); box-shadow: 0 8px 20px rgba(79, 70, 229, 0.6); }
+  50% { transform: translateY(-12px) rotate(0deg); box-shadow: 0 12px 25px rgba(79, 70, 229, 0.8); }
+  75% { transform: translateY(-8px) rotate(-3deg); box-shadow: 0 8px 20px rgba(79, 70, 229, 0.6); }
+}
+.floating-blocks { position: absolute; top: -15px; right: -25px; z-index: 3; }
+.block { width: 12px; height: 12px; border-radius: 3px; position: absolute; animation: floatingBlocks 2s ease-in-out infinite; }
+.block-1 { background: var(--primary-color); top: 0; right: 0; animation-delay: 0s; }
+.block-2 { background: var(--primary-color); filter: brightness(1.3); top: 5px; right: 15px; animation-delay: 0.3s; }
+.block-3 { background: var(--primary-color); filter: brightness(0.8); top: 15px; right: 8px; animation-delay: 0.6s; }
+@keyframes floatingBlocks {
+  0%, 100% { transform: translateY(0px) scale(1); opacity: 0.8; }
+  50% { transform: translateY(-8px) scale(1.1); opacity: 1; }
+}
+.adalo-service-btn {
+  display: inline-block;
+  background: var(--primary-color);
+  color: white;
+  padding: 14px 28px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-family: 'Inter', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.adalo-service-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+.adalo-service-btn:hover::before { left: 100%; }
+.adalo-service-btn:hover {
+  background: var(--primary-color);
+  filter: brightness(0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
+}
+.adalo-service-btn:active { transform: translateY(0px); box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3); }
+.adalo-service-btn i { margin-right: 10px; font-size: 18px; animation: rocketBounce 2s ease-in-out infinite; }
+@media (max-width: 768px) {
+  .adalo-promotion-widget { margin: 20px 0; padding: 20px; }
+  .adalo-promo-text h3 { font-size: 20px; }
+  .adalo-promo-text p { font-size: 14px; }
+  .adalo-service-btn { padding: 12px 24px; font-size: 15px; }
+  .floating-mobile { width: 30px; height: 30px; font-size: 14px; top: -15px; left: -15px; }
+  .floating-blocks { top: -12px; right: -20px; }
+  .block { width: 10px; height: 10px; }
+}
+@media (prefers-color-scheme: dark) {
+  .adalo-promotion-widget { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); }
+  .adalo-promo-text h3 { filter: brightness(1.3); }
+}
+</style>
+
+</body>
+</html>
