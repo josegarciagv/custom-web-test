@@ -448,10 +448,24 @@
         margin-bottom: 1rem;
       }
 
+
+      .component-admin-item {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
       .component-admin-item input,
       .component-admin-item textarea {
-        margin-right: 0.5rem;
-        flex: 1;
+        width: 100%;
+        margin-bottom: 0.5rem;
+      }
+
+      .component-actions {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-end;
+        width: 100%;
+
       }
 
       .link-info,
@@ -4299,43 +4313,75 @@
       });
 
       function addComponentItem(comp) {
-        const index = componentsList.children.length;
         const wrapper = document.createElement("div");
         wrapper.className = "component-admin-item";
 
-        wrapper.innerHTML = `
-          <label>Enabled <input type="checkbox" class="comp-enabled" ${
-            comp.enabled ? "checked" : ""
-          } /></label>
-          <input type="text" class="comp-title" placeholder="Title" value="${
-            comp.title || ""
-          }" />
-          <textarea class="comp-text" placeholder="Text">${comp.text || ""}</textarea>
-          <input type="text" class="comp-buttonText" placeholder="Button Text" value="${
-            comp.buttonText || ""
-          }" />
-          <input type="text" class="comp-buttonUrl" placeholder="Button URL" value="${
-            comp.buttonUrl || ""
-          }" />
-          <input type="text" class="comp-icon" placeholder="Icon" value="${
-            comp.icon || ""
-          }" />
-          <input type="text" class="comp-color" placeholder="Color" value="${
-            comp.color || ""
-          }" />
-          <input type="text" class="comp-image" placeholder="Image URL" value="${
-            comp.image || ""
-          }" />
-<div class="component-actions">
-  <button class="button danger-button delete-comp-button" title="Delete">
-    <i class="fas fa-trash"></i>
-  </button>
-</div>
+        const enabledLabel = document.createElement("label");
+        enabledLabel.textContent = "Enabled ";
+        const enabledInput = document.createElement("input");
+        enabledInput.type = "checkbox";
+        enabledInput.className = "comp-enabled";
+        if (comp.enabled) enabledInput.checked = true;
+        enabledLabel.appendChild(enabledInput);
+        wrapper.appendChild(enabledLabel);
 
-const deleteBtn = wrapper.querySelector(".delete-comp-button");
-deleteBtn.addEventListener("click", () => {
-  wrapper.remove();
-});
+        const titleInput = document.createElement("input");
+        titleInput.type = "text";
+        titleInput.className = "comp-title";
+        titleInput.placeholder = "Title";
+        titleInput.value = comp.title || "";
+        wrapper.appendChild(titleInput);
+
+        const textArea = document.createElement("textarea");
+        textArea.className = "comp-text";
+        textArea.placeholder = "Text";
+        textArea.value = comp.text || "";
+        wrapper.appendChild(textArea);
+
+        const btnText = document.createElement("input");
+        btnText.type = "text";
+        btnText.className = "comp-buttonText";
+        btnText.placeholder = "Button Text";
+        btnText.value = comp.buttonText || "";
+        wrapper.appendChild(btnText);
+
+        const btnUrl = document.createElement("input");
+        btnUrl.type = "text";
+        btnUrl.className = "comp-buttonUrl";
+        btnUrl.placeholder = "Button URL";
+        btnUrl.value = comp.buttonUrl || "";
+        wrapper.appendChild(btnUrl);
+
+        const iconInput = document.createElement("input");
+        iconInput.type = "text";
+        iconInput.className = "comp-icon";
+        iconInput.placeholder = "Icon";
+        iconInput.value = comp.icon || "";
+        wrapper.appendChild(iconInput);
+
+        const colorInput = document.createElement("input");
+        colorInput.type = "text";
+        colorInput.className = "comp-color";
+        colorInput.placeholder = "Color";
+        colorInput.value = comp.color || "";
+        wrapper.appendChild(colorInput);
+
+        const imageInput = document.createElement("input");
+        imageInput.type = "text";
+        imageInput.className = "comp-image";
+        imageInput.placeholder = "Image URL";
+        imageInput.value = comp.image || "";
+        wrapper.appendChild(imageInput);
+
+        const actions = document.createElement("div");
+        actions.className = "component-actions";
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "button danger-button";
+        deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+        deleteBtn.addEventListener("click", () => wrapper.remove());
+        actions.appendChild(deleteBtn);
+        wrapper.appendChild(actions);
+=
 
         componentsList.appendChild(wrapper);
       }

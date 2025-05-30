@@ -88,7 +88,10 @@ function optimizeImageBuffer(buffer, mimetype) {
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGO_URL || "")
+  .connect(
+    process.env.MONGO_URL ||
+      "mongodb://127.0.0.1:27017/customweb"
+  )
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err))
 

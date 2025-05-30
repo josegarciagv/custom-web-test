@@ -400,37 +400,37 @@
         margin-bottom: 3rem;
       }
 
-.component-item {
-  padding: 1.5rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  text-align: center;
-  background-color: var(--secondary-bg);
-  color: var(--text-color);
-}
 
-.component-item img {
-  max-width: 100%;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-}
+      .component-item {
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        text-align: center;
+        background-color: var(--secondary-bg);
+        color: var(--text-color);
+      }
 
-.component-icon {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-  color: var(--primary-color);
-}
+      .component-item i {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        display: block;
+      }
 
-.component-button {
-  display: inline-block;
-  margin-top: 1rem;
-  background-color: var(--primary-color);
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  text-decoration: none;
-}
+      .component-image {
+        max-width: 100%;
+        border-radius: 8px;
+        margin-bottom: 0.5rem;
+      }
 
+      .component-button {
+        display: inline-block;
+        margin-top: 1rem;
+        background-color: var(--primary-color);
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        text-decoration: none;
+      }
 
       .services-section {
         padding: 3rem 0;
@@ -2505,20 +2505,18 @@
             section.style.backgroundColor = comp.color;
           }
 
-if (comp.icon) {
-  const iconEl = document.createElement("div");
-  iconEl.className = "component-icon";
-  iconEl.innerHTML = `<i class="${comp.icon}"></i>`;
-  section.appendChild(iconEl);
-}
 
-if (comp.image) {
-  const imgEl = document.createElement("img");
-  imgEl.src = comp.image;
-  imgEl.alt = comp.title || "Component image";
-  section.appendChild(imgEl);
-}
-
+          if (comp.image) {
+            const img = document.createElement("img");
+            img.src = comp.image;
+            img.alt = comp.title || "component";
+            img.className = "component-image";
+            section.appendChild(img);
+          } else if (comp.icon) {
+            const icon = document.createElement("i");
+            icon.className = comp.icon;
+            section.appendChild(icon);
+          }
           const title = document.createElement("h3");
           title.textContent = comp.title || "";
           section.appendChild(title);
