@@ -409,6 +409,7 @@
         color: var(--text-color);
       }
 
+
       .component-button {
         display: inline-block;
         margin-top: 1rem;
@@ -2488,9 +2489,11 @@
 
           const section = document.createElement("div");
           section.className = "component-item";
+
           if (comp.color) {
             section.style.backgroundColor = comp.color;
           }
+
 
           const title = document.createElement("h3");
           title.textContent = comp.title || "";
@@ -2502,6 +2505,7 @@
             section.appendChild(p);
           }
 
+
           if (comp.buttonText && comp.buttonUrl) {
             const btn = document.createElement("a");
             btn.href = comp.buttonUrl;
@@ -2510,6 +2514,8 @@
             btn.target = "_blank";
             section.appendChild(btn);
           }
+
+
 
           container.appendChild(section);
         });

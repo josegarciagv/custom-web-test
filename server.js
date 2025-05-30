@@ -88,7 +88,12 @@ function optimizeImageBuffer(buffer, mimetype) {
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGO_URL || "")
+  .connect(
+    process.env.MONGO_URL ||
+
+      "mongodb://localhost:27017/customweb"
+
+  )
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err))
 
@@ -158,7 +163,9 @@ const componentSchema = new mongoose.Schema({
   buttonUrl: { type: String },
   image: { type: String },
   icon: { type: String },
+
   color: { type: String }
+
 })
 
 // Profile Schema
@@ -201,6 +208,7 @@ const profileSchema = new mongoose.Schema({
       "services-section",
       "products-section",
       "blog-section",
+      "components-section",
       "gallery-section",
       "info-section",
       "faq-section",
@@ -294,6 +302,7 @@ async function initializeDefaultProfile() {
           "services-section",
           "products-section",
           "blog-section",
+          "components-section",
           "gallery-section",
           "info-section",
           "faq-section",
