@@ -400,24 +400,11 @@
         margin-bottom: 3rem;
       }
 
-      .component-item {
-        padding: 1.5rem;
-        border-radius: 8px;
-        margin-bottom: 1rem;
-        text-align: center;
-        background-color: var(--secondary-bg);
-        color: var(--text-color);
-      }
 
+      .simple-section {
+        padding: 3rem 0;
+        margin-bottom: 3rem;
 
-      .component-button {
-        display: inline-block;
-        margin-top: 1rem;
-        background-color: var(--primary-color);
-        color: #fff;
-        padding: 0.5rem 1rem;
-        border-radius: 4px;
-        text-decoration: none;
       }
 
       .services-section {
@@ -1579,6 +1566,54 @@
           </div>
         </section>
 
+        <section id="testimonials-section" class="simple-section">
+          <div class="container">
+            <h2 class="section-title" id="testimonials-title">Testimonials</h2>
+            <div id="testimonials-container"></div>
+          </div>
+        </section>
+
+        <section id="countdown-section" class="simple-section">
+          <div class="container">
+            <div id="countdown-timer"></div>
+          </div>
+        </section>
+
+        <section id="pricing-section" class="simple-section">
+          <div class="container">
+            <h2 class="section-title" id="pricing-title">Pricing</h2>
+            <div id="pricing-container"></div>
+          </div>
+        </section>
+
+        <section id="video-section" class="simple-section">
+          <div class="container" id="video-container"></div>
+        </section>
+
+        <section id="newsletter-section" class="simple-section">
+          <div class="container" id="newsletter-container"></div>
+        </section>
+
+        <section id="stats-section" class="simple-section">
+          <div class="container" id="stats-container"></div>
+        </section>
+
+        <section id="quote-section" class="simple-section">
+          <div class="container" id="quote-container"></div>
+        </section>
+
+        <section id="resources-section" class="simple-section">
+          <div class="container" id="resources-container"></div>
+        </section>
+
+        <section id="map-section" class="simple-section">
+          <div class="container" id="map-container"></div>
+        </section>
+
+        <section id="footer-section" class="simple-section">
+          <div class="container" id="footer-container"></div>
+        </section>
+
         <!-- NEW: Blog Section -->
         <section id="blog-section" class="blog-section">
           <div class="container">
@@ -2234,8 +2269,19 @@
           // Load products
           loadProducts(data.products || []);
 
-          // Load gallery images
-          loadGalleryImages(data.galleryImages || []);
+         // Load gallery images
+         loadGalleryImages(data.galleryImages || []);
+
+          loadTestimonials(data.testimonials || []);
+          loadCountdown(data.countdown || null);
+          loadPricing(data.pricingPlans || []);
+          loadVideos(data.featuredVideos || []);
+          loadNewsletter(data.newsletter || null);
+          loadStats(data.stats || []);
+          loadQuotes(data.quotes || []);
+          loadResources(data.resources || []);
+          loadMap(data.map || null);
+          loadFooter(data.footer || null);
 
           // Load blog posts
           loadBlogPosts(data.blogPosts || []);
@@ -2282,6 +2328,66 @@
             document
               .getElementById("gallery-section")
               .classList.remove("hidden");
+          }
+
+          if (!data.testimonials || data.testimonials.length === 0) {
+            document.getElementById("testimonials-section").classList.add("hidden");
+          } else {
+            document.getElementById("testimonials-section").classList.remove("hidden");
+          }
+
+          if (!data.countdown || !data.countdown.targetDate) {
+            document.getElementById("countdown-section").classList.add("hidden");
+          } else {
+            document.getElementById("countdown-section").classList.remove("hidden");
+          }
+
+          if (!data.pricingPlans || data.pricingPlans.length === 0) {
+            document.getElementById("pricing-section").classList.add("hidden");
+          } else {
+            document.getElementById("pricing-section").classList.remove("hidden");
+          }
+
+          if (!data.featuredVideos || data.featuredVideos.length === 0) {
+            document.getElementById("video-section").classList.add("hidden");
+          } else {
+            document.getElementById("video-section").classList.remove("hidden");
+          }
+
+          if (!data.newsletter || !data.newsletter.title) {
+            document.getElementById("newsletter-section").classList.add("hidden");
+          } else {
+            document.getElementById("newsletter-section").classList.remove("hidden");
+          }
+
+          if (!data.stats || data.stats.length === 0) {
+            document.getElementById("stats-section").classList.add("hidden");
+          } else {
+            document.getElementById("stats-section").classList.remove("hidden");
+          }
+
+          if (!data.quotes || data.quotes.length === 0) {
+            document.getElementById("quote-section").classList.add("hidden");
+          } else {
+            document.getElementById("quote-section").classList.remove("hidden");
+          }
+
+          if (!data.resources || data.resources.length === 0) {
+            document.getElementById("resources-section").classList.add("hidden");
+          } else {
+            document.getElementById("resources-section").classList.remove("hidden");
+          }
+
+          if (!data.map || !data.map.iframe) {
+            document.getElementById("map-section").classList.add("hidden");
+          } else {
+            document.getElementById("map-section").classList.remove("hidden");
+          }
+
+          if (!data.footer || !data.footer.text) {
+            document.getElementById("footer-section").classList.add("hidden");
+          } else {
+            document.getElementById("footer-section").classList.remove("hidden");
           }
 
           // Hide blog section if no blog posts
@@ -2745,6 +2851,104 @@
             faqContainer.appendChild(faqItem);
           });
         }
+      }
+
+      function loadTestimonials(items) {
+        const container = document.getElementById("testimonials-container");
+        container.innerHTML = "";
+        items.forEach((t) => {
+          const div = document.createElement("div");
+          div.innerHTML = `<strong>${t.name}</strong><br/><iframe src="${t.videoUrl}" frameborder="0" allowfullscreen></iframe><p>${t.description}</p>`;
+          container.appendChild(div);
+        });
+      }
+
+      function loadCountdown(data) {
+        const el = document.getElementById("countdown-timer");
+        if (!data || !data.targetDate) return;
+        el.textContent = "";
+        const target = new Date(data.targetDate).getTime();
+        const update = () => {
+          const now = Date.now();
+          const diff = target - now;
+          if (diff <= 0) {
+            el.textContent = data.finalMessage || "Time's up";
+            clearInterval(timer);
+          } else {
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+            el.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+          }
+        };
+        update();
+        const timer = setInterval(update, 1000);
+      }
+
+      function loadPricing(plans) {
+        const container = document.getElementById("pricing-container");
+        container.innerHTML = "";
+        plans.forEach((p) => {
+          const div = document.createElement("div");
+          div.innerHTML = `<h3>${p.name}</h3><p>${p.price}</p><p>${p.benefits}</p>`;
+          container.appendChild(div);
+        });
+      }
+
+      function loadVideos(videos) {
+        const container = document.getElementById("video-container");
+        container.innerHTML = "";
+        videos.forEach((v) => {
+          const div = document.createElement("div");
+          div.innerHTML = `<h3>${v.title}</h3><iframe src="${v.url}" frameborder="0" allowfullscreen></iframe><p>${v.description}</p>`;
+          container.appendChild(div);
+        });
+      }
+
+      function loadNewsletter(data) {
+        const container = document.getElementById("newsletter-container");
+        container.innerHTML = data ? `<h3>${data.title}</h3><p>${data.description}</p>` : "";
+      }
+
+      function loadStats(items) {
+        const container = document.getElementById("stats-container");
+        container.innerHTML = "";
+        items.forEach((s) => {
+          const div = document.createElement("div");
+          div.innerHTML = `<i class='fas fa-${s.icon}'></i> <strong>${s.number}</strong> ${s.description}`;
+          container.appendChild(div);
+        });
+      }
+
+      function loadQuotes(quotes) {
+        const container = document.getElementById("quote-container");
+        container.innerHTML = "";
+        quotes.forEach((q) => {
+          const div = document.createElement("div");
+          div.innerHTML = `<i class='fas fa-${q.icon}'></i> "${q.text}" - ${q.author}`;
+          container.appendChild(div);
+        });
+      }
+
+      function loadResources(items) {
+        const container = document.getElementById("resources-container");
+        container.innerHTML = "";
+        items.forEach((r) => {
+          const div = document.createElement("div");
+          div.innerHTML = `<i class='fas fa-${r.icon}'></i> <a href='${r.url}' target='_blank'>${r.name}</a> ${r.description}`;
+          container.appendChild(div);
+        });
+      }
+
+      function loadMap(map) {
+        const container = document.getElementById("map-container");
+        container.innerHTML = map && map.iframe ? map.iframe : "";
+      }
+
+      function loadFooter(data) {
+        const container = document.getElementById("footer-container");
+        container.innerHTML = data && data.text ? `<p>${data.text}</p>` : "";
       }
 
       // FIXED: Reorder page sections based on saved order

@@ -1058,6 +1058,116 @@
           </div>
         </section>
 
+        <!-- Testimonials Section -->
+        <section id="admin-testimonials-section" class="section hidden">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Testimonials</h2>
+            </div>
+            <textarea id="testimonials-json" class="form-textarea" placeholder='[{"name":"Jane","videoUrl":"https://youtube.com/embed/...","description":"Great"}]'></textarea>
+            <button type="button" class="button primary-button" id="save-testimonials-button">Save</button>
+          </div>
+        </section>
+
+        <!-- Countdown Section -->
+        <section id="admin-countdown-section" class="section hidden">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Countdown</h2>
+            </div>
+            <textarea id="countdown-json" class="form-textarea" placeholder='{"targetDate":"2025-12-31","finalMessage":"Launched!"}'></textarea>
+            <button type="button" class="button primary-button" id="save-countdown-button">Save</button>
+          </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="admin-pricing-section" class="section hidden">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Pricing Plans</h2>
+            </div>
+            <textarea id="pricing-json" class="form-textarea" placeholder='[{"name":"Basic","price":"$9","benefits":"A,B"}]'></textarea>
+            <button type="button" class="button primary-button" id="save-pricing-button">Save</button>
+          </div>
+        </section>
+
+        <!-- Video Section -->
+        <section id="admin-video-section" class="section hidden">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Featured Videos</h2>
+            </div>
+            <textarea id="videos-json" class="form-textarea" placeholder='[{"title":"Intro","url":"https://youtube.com/embed/..."}]'></textarea>
+            <button type="button" class="button primary-button" id="save-videos-button">Save</button>
+          </div>
+        </section>
+
+        <!-- Newsletter Section -->
+        <section id="admin-newsletter-section" class="section hidden">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Newsletter</h2>
+            </div>
+            <textarea id="newsletter-json" class="form-textarea" placeholder='{"title":"Join","description":"Get updates"}'></textarea>
+            <button type="button" class="button primary-button" id="save-newsletter-button">Save</button>
+          </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section id="admin-stats-section" class="section hidden">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Stats</h2>
+            </div>
+            <textarea id="stats-json" class="form-textarea" placeholder='[{"icon":"users","number":"1000","description":"Clients"}]'></textarea>
+            <button type="button" class="button primary-button" id="save-stats-button">Save</button>
+          </div>
+        </section>
+
+        <!-- Quotes Section -->
+        <section id="admin-quotes-section" class="section hidden">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Quotes</h2>
+            </div>
+            <textarea id="quotes-json" class="form-textarea" placeholder='[{"text":"Inspire","author":"Author"}]'></textarea>
+            <button type="button" class="button primary-button" id="save-quotes-button">Save</button>
+          </div>
+        </section>
+
+        <!-- Resources Section -->
+        <section id="admin-resources-section" class="section hidden">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Resources</h2>
+            </div>
+            <textarea id="resources-json" class="form-textarea" placeholder='[{"name":"Guide","url":"#"}]'></textarea>
+            <button type="button" class="button primary-button" id="save-resources-button">Save</button>
+          </div>
+        </section>
+
+        <!-- Map Section -->
+        <section id="admin-map-section" class="section hidden">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Map</h2>
+            </div>
+            <textarea id="map-json" class="form-textarea" placeholder='{"iframe":"<iframe src=\"...\"></iframe>"}'></textarea>
+            <button type="button" class="button primary-button" id="save-map-button">Save</button>
+          </div>
+        </section>
+
+        <!-- Footer Section -->
+        <section id="admin-footer-section" class="section hidden">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Footer</h2>
+            </div>
+            <textarea id="footer-json" class="form-textarea" placeholder='{"text":"© 2025"}'></textarea>
+            <button type="button" class="button primary-button" id="save-footer-button">Save</button>
+          </div>
+        </section>
+
         <!-- Section Titles Section -->
         <section id="titles-section" class="section hidden">
           <div class="card">
@@ -2097,7 +2207,7 @@
                   id="section-order"
                   class="form-input"
 
-                  placeholder="services-section,products-section,blog-section,gallery-section,info-section,faq-section,contact-section"
+                  placeholder="links-section,services-section,products-section,blog-section,gallery-section,testimonials-section,countdown-section,pricing-section,video-section,newsletter-section,stats-section,quote-section,resources-section,map-section,info-section,faq-section,contact-section,footer-section,custom-code-section"
 
                 />
               </div>
@@ -2434,6 +2544,29 @@
       const saveComponentsButton = document.getElementById("save-components-button");
       const componentsLoading = document.getElementById("components-loading");
       const componentsButtonText = document.getElementById("components-button-text");
+
+      const saveTestimonialsButton = document.getElementById("save-testimonials-button");
+      const saveCountdownButton = document.getElementById("save-countdown-button");
+      const savePricingButton = document.getElementById("save-pricing-button");
+      const saveVideosButton = document.getElementById("save-videos-button");
+      const saveNewsletterButton = document.getElementById("save-newsletter-button");
+      const saveStatsButton = document.getElementById("save-stats-button");
+      const saveQuotesButton = document.getElementById("save-quotes-button");
+      const saveResourcesButton = document.getElementById("save-resources-button");
+      const saveMapButton = document.getElementById("save-map-button");
+      const saveFooterButton = document.getElementById("save-footer-button");
+
+      // New Section Textareas
+      const testimonialsInput = document.getElementById("testimonials-json");
+      const countdownInput = document.getElementById("countdown-json");
+      const pricingInput = document.getElementById("pricing-json");
+      const videosInput = document.getElementById("videos-json");
+      const newsletterInput = document.getElementById("newsletter-json");
+      const statsInput = document.getElementById("stats-json");
+      const quotesInput = document.getElementById("quotes-json");
+      const resourcesInput = document.getElementById("resources-json");
+      const mapInput = document.getElementById("map-json");
+      const footerInput = document.getElementById("footer-json");
 
       // Service Icons List
       const serviceIcons = [
@@ -2849,7 +2982,19 @@
         updateColorPreviews(data);
 
         sectionOrderInput.value = (data.sectionOrder || []).join(",");
-        loadComponentsAdmin(data.components || []);
+
+        customCodeInput.value = data.customCode || "";
+        testimonialsInput.value = JSON.stringify(data.testimonials || [], null, 2);
+        countdownInput.value = JSON.stringify(data.countdown || {}, null, 2);
+        pricingInput.value = JSON.stringify(data.pricingPlans || [], null, 2);
+        videosInput.value = JSON.stringify(data.featuredVideos || [], null, 2);
+        newsletterInput.value = JSON.stringify(data.newsletter || {}, null, 2);
+        statsInput.value = JSON.stringify(data.stats || [], null, 2);
+        quotesInput.value = JSON.stringify(data.quotes || [], null, 2);
+        resourcesInput.value = JSON.stringify(data.resources || [], null, 2);
+        mapInput.value = JSON.stringify(data.map || {}, null, 2);
+        footerInput.value = JSON.stringify(data.footer || {}, null, 2);
+
 
         // Contact section
         contactEmailInput.value = data.contactEmail || "";
@@ -4560,6 +4705,61 @@
           componentsButtonText.textContent = "Save Changes";
         }
       });
+
+      async function saveJsonField(button, field, input) {
+        try {
+          const token = checkAuthStatus();
+          button.disabled = true;
+          const response = await fetch("/api/profile", {
+            method: "PUT",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ [field]: JSON.parse(input.value || "null") }),
+          });
+          if (!response.ok) throw new Error("Failed to update");
+          const data = await response.json();
+          profileData = data.profile;
+          showNotification("success", "Success", "Updated successfully");
+        } catch (err) {
+          console.error(err);
+          showNotification("error", "Error", "Update failed");
+        } finally {
+          button.disabled = false;
+        }
+      }
+
+      saveTestimonialsButton.addEventListener("click", () =>
+        saveJsonField(saveTestimonialsButton, "testimonials", testimonialsInput)
+      );
+      saveCountdownButton.addEventListener("click", () =>
+        saveJsonField(saveCountdownButton, "countdown", countdownInput)
+      );
+      savePricingButton.addEventListener("click", () =>
+        saveJsonField(savePricingButton, "pricingPlans", pricingInput)
+      );
+      saveVideosButton.addEventListener("click", () =>
+        saveJsonField(saveVideosButton, "featuredVideos", videosInput)
+      );
+      saveNewsletterButton.addEventListener("click", () =>
+        saveJsonField(saveNewsletterButton, "newsletter", newsletterInput)
+      );
+      saveStatsButton.addEventListener("click", () =>
+        saveJsonField(saveStatsButton, "stats", statsInput)
+      );
+      saveQuotesButton.addEventListener("click", () =>
+        saveJsonField(saveQuotesButton, "quotes", quotesInput)
+      );
+      saveResourcesButton.addEventListener("click", () =>
+        saveJsonField(saveResourcesButton, "resources", resourcesInput)
+      );
+      saveMapButton.addEventListener("click", () =>
+        saveJsonField(saveMapButton, "map", mapInput)
+      );
+      saveFooterButton.addEventListener("click", () =>
+        saveJsonField(saveFooterButton, "footer", footerInput)
+      );
 
       // Profile image input
       profileImageInput.addEventListener("change", (e) => {
