@@ -4326,17 +4326,17 @@
           <input type="text" class="comp-image" placeholder="Image URL" value="${
             comp.image || ""
           }" />
-          <div class="component-actions">
-            <button class="button danger-button delete-comp-button" title="Delete">
-              <i class="fas fa-trash"></i>
-            </button>
-          </div>
-        `;
+<div class="component-actions">
+  <button class="button danger-button delete-comp-button" title="Delete">
+    <i class="fas fa-trash"></i>
+  </button>
+</div>
 
-        const deleteBtn = wrapper.querySelector(".delete-comp-button");
-        deleteBtn.addEventListener("click", () => {
-          wrapper.remove();
-        });
+const deleteBtn = wrapper.querySelector(".delete-comp-button");
+deleteBtn.addEventListener("click", () => {
+  wrapper.remove();
+});
+
         componentsList.appendChild(wrapper);
       }
 
