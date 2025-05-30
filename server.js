@@ -88,7 +88,12 @@ function optimizeImageBuffer(buffer, mimetype) {
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGO_URL || "")
+  .connect(
+    process.env.MONGO_URL ||
+
+      "mongodb://localhost:27017/customweb"
+
+  )
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err))
 
@@ -148,6 +153,21 @@ const faqSchema = new mongoose.Schema({
   answer: { type: String, required: true }
 })
 
+// Component Schema - NEW
+const componentSchema = new mongoose.Schema({
+  type: { type: String, required: true },
+  enabled: { type: Boolean, default: true },
+  title: { type: String },
+  text: { type: String },
+  buttonText: { type: String },
+  buttonUrl: { type: String },
+  image: { type: String },
+  icon: { type: String },
+
+  color: { type: String }
+
+})
+
 // Profile Schema
 const profileSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -186,10 +206,10 @@ const profileSchema = new mongoose.Schema({
   sectionOrder: {
     type: [String],
     default: [
-      "links-section",
       "services-section",
       "products-section",
       "blog-section",
+      "components-section",
       "gallery-section",
       "testimonials-section",
       "countdown-section",
@@ -268,6 +288,7 @@ const profileSchema = new mongoose.Schema({
   footer: {
     text: String
   },
+
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 })
@@ -339,11 +360,12 @@ async function initializeDefaultProfile() {
         infoSectionTitle: "Contact Information",
         faqSectionTitle: "Frequently Asked Questions",
         contactSectionTitle: "Contact Me",
+        // Default ordering mirrors the placeholder shown in the admin UI.
         sectionOrder: [
-          "links-section",
           "services-section",
           "products-section",
           "blog-section",
+          "components-section",
           "gallery-section",
           "testimonials-section",
           "countdown-section",
@@ -499,6 +521,7 @@ async function initializeDefaultProfile() {
         footer: {
           text: "© 2025 My Company"
         }
+
       })
       
       await defaultProfile.save()
