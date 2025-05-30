@@ -427,7 +427,8 @@
       .contact-info-list,
       .faqs-list,
       .products-list,
-      .blog-posts-list {
+      .blog-posts-list,
+      .components-list {
         margin-top: 1.5rem;
       }
 
@@ -436,7 +437,8 @@
       .contact-info-item,
       .faq-item,
       .product-item,
-      .blog-post-item {
+      .blog-post-item,
+      .component-admin-item {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -919,12 +921,12 @@
           </li>
           <li class="sidebar-nav-item">
             <a
-              href="#custom-code"
+              href="#components"
               class="sidebar-nav-link"
-              data-section="custom-code-section"
+              data-section="components-section"
             >
-              <i class="fas fa-code sidebar-nav-icon"></i>
-              <span class="sidebar-nav-text">Custom Code</span>
+              <i class="fas fa-cubes sidebar-nav-icon"></i>
+              <span class="sidebar-nav-text">Components</span>
             </a>
           </li>
         </ul>
@@ -2086,7 +2088,7 @@
                   type="text"
                   id="section-order"
                   class="form-input"
-                  placeholder="services-section,products-section,gallery-section,blog-section,faq-section,info-section,contact-section,custom-code-section"
+                  placeholder="services-section,products-section,gallery-section,blog-section,components-section,faq-section,info-section,contact-section"
                 />
               </div>
               <button
@@ -2101,30 +2103,24 @@
           </div>
         </section>
 
-        <!-- Custom Code Section -->
-        <section id="custom-code-section" class="section hidden">
+        <!-- Components Section -->
+        <section id="components-section" class="section hidden">
           <div class="card">
             <div class="card-header">
-              <h2 class="card-title">Custom Code</h2>
+              <h2 class="card-title">Components</h2>
             </div>
-            <form id="custom-code-form">
-              <div class="form-group">
-                <label for="custom-code" class="form-label">HTML/JS/CSS</label>
-                <textarea
-                  id="custom-code"
-                  class="form-textarea"
-                  placeholder="&lt;script&gt;console.log('hi')&lt;/script&gt;"
-                ></textarea>
-              </div>
-              <button
-                type="submit"
-                class="button primary-button"
-                id="save-custom-code-button"
-              >
-                <span id="custom-code-loading" class="loading hidden"></span>
-                <span id="custom-code-button-text">Save Changes</span>
-              </button>
-            </form>
+            <div class="components-list" id="components-list"></div>
+            <button class="button primary-button" id="add-component-button">
+              Add Component
+            </button>
+            <button
+              type="button"
+              class="button primary-button"
+              id="save-components-button"
+            >
+              <span id="components-loading" class="loading hidden"></span>
+              <span id="components-button-text">Save Changes</span>
+            </button>
           </div>
         </section>
       </main>
@@ -2416,16 +2412,12 @@
       const orderLoading = document.getElementById("order-loading");
       const orderButtonText = document.getElementById("order-button-text");
 
-      // Custom Code Elements
-      const customCodeForm = document.getElementById("custom-code-form");
-      const customCodeInput = document.getElementById("custom-code");
-      const saveCustomCodeButton = document.getElementById(
-        "save-custom-code-button"
-      );
-      const customCodeLoading = document.getElementById("custom-code-loading");
-      const customCodeButtonText = document.getElementById(
-        "custom-code-button-text"
-      );
+      // Components Elements - NEW
+      const componentsList = document.getElementById("components-list");
+      const addComponentButton = document.getElementById("add-component-button");
+      const saveComponentsButton = document.getElementById("save-components-button");
+      const componentsLoading = document.getElementById("components-loading");
+      const componentsButtonText = document.getElementById("components-button-text");
 
       // Service Icons List
       const serviceIcons = [
@@ -2594,6 +2586,7 @@
         contactInfo: [],
         faqs: [],
         galleryImages: [],
+        components: [],
       };
 
       // Check if user is logged in
@@ -2840,7 +2833,7 @@
         updateColorPreviews(data);
 
         sectionOrderInput.value = (data.sectionOrder || []).join(",");
-        customCodeInput.value = data.customCode || "";
+        loadComponentsAdmin(data.components || []);
 
         // Contact section
         contactEmailInput.value = data.contactEmail || "";
@@ -4283,17 +4276,106 @@
         }
       });
 
-      // Custom code form
-      customCodeForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
+      // Components management
+      addComponentButton.addEventListener("click", () => {
+        addComponentItem({
+          type: "text",
+          enabled: true,
+          title: "",
+          text: "",
+          buttonText: "",
+          buttonUrl: "",
+          icon: "",
+          color: "",
+          bgColor: "",
+          textColor: "",
+          videoUrl: "",
+          image: "",
+        });
+      });
+
+      function addComponentItem(comp) {
+        const index = componentsList.children.length;
+        const wrapper = document.createElement("div");
+        wrapper.className = "component-admin-item";
+
+        wrapper.innerHTML = `
+          <label>Enabled <input type="checkbox" class="comp-enabled" ${
+            comp.enabled ? "checked" : ""
+          } /></label>
+          <select class="comp-type">
+            <option value="text" ${comp.type === "text" ? "selected" : ""}>Text</option>
+            <option value="video" ${comp.type === "video" ? "selected" : ""}>YouTube Video</option>
+          </select>
+          <input type="text" class="comp-title" placeholder="Title" value="${
+            comp.title || ""
+          }" />
+          <textarea class="comp-text" placeholder="Text">${comp.text || ""}</textarea>
+          <input type="text" class="comp-buttonText" placeholder="Button Text" value="${
+            comp.buttonText || ""
+          }" />
+          <input type="text" class="comp-buttonUrl" placeholder="Button URL" value="${
+            comp.buttonUrl || ""
+          }" />
+          <input type="text" class="comp-icon" placeholder="Icon" value="${
+            comp.icon || ""
+          }" />
+          <input type="text" class="comp-color" placeholder="Accent Color" value="${
+            comp.color || ""
+          }" />
+          <input type="text" class="comp-bgColor" placeholder="Background Color" value="${
+            comp.bgColor || ""
+          }" />
+          <input type="text" class="comp-textColor" placeholder="Text Color" value="${
+            comp.textColor || ""
+          }" />
+          <input type="text" class="comp-videoUrl" placeholder="YouTube URL" value="${
+            comp.videoUrl || ""
+          }" />
+          <input type="text" class="comp-image" placeholder="Image URL" value="${
+            comp.image || ""
+          }" />
+          <button type="button" class="button danger-button comp-delete">Delete</button>
+        `;
+
+        wrapper.querySelector(".comp-delete").addEventListener("click", () => {
+          if (confirm("Delete this component?")) {
+            wrapper.remove();
+          }
+        });
+
+        componentsList.appendChild(wrapper);
+      }
+
+      function loadComponentsAdmin(comps) {
+        componentsList.innerHTML = "";
+        comps.forEach((c) => addComponentItem(c));
+      }
+
+      saveComponentsButton.addEventListener("click", async () => {
+        const components = [];
+        componentsList.querySelectorAll(".component-admin-item").forEach((el) => {
+          components.push({
+            enabled: el.querySelector(".comp-enabled").checked,
+            type: el.querySelector(".comp-type").value,
+            title: el.querySelector(".comp-title").value,
+            text: el.querySelector(".comp-text").value,
+            buttonText: el.querySelector(".comp-buttonText").value,
+            buttonUrl: el.querySelector(".comp-buttonUrl").value,
+            icon: el.querySelector(".comp-icon").value,
+            color: el.querySelector(".comp-color").value,
+            bgColor: el.querySelector(".comp-bgColor").value,
+            textColor: el.querySelector(".comp-textColor").value,
+            videoUrl: el.querySelector(".comp-videoUrl").value,
+            image: el.querySelector(".comp-image").value,
+          });
+        });
 
         try {
           const token = checkAuthStatus();
-
-          // Show loading state
-          saveCustomCodeButton.disabled = true;
-          customCodeLoading.classList.remove("hidden");
-          customCodeButtonText.textContent = "Saving...";
+          saveComponentsButton.disabled = true;
+          componentsLoading.classList.remove("hidden");
+          componentsButtonText.textContent = "Saving...";
 
           const response = await fetch("/api/profile", {
             method: "PUT",
@@ -4302,30 +4384,25 @@
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              customCode: customCodeInput.value,
+              components,
             }),
           });
 
           if (!response.ok) {
-            throw new Error("Failed to update custom code");
+            throw new Error("Failed to update components");
           }
 
           const data = await response.json();
           profileData = data.profile;
 
-          showNotification(
-            "success",
-            "Success",
-            "Custom code updated successfully"
-          );
+          showNotification("success", "Success", "Components updated successfully");
         } catch (error) {
-          console.error("Error updating custom code:", error);
-          showNotification("error", "Error", "Failed to update custom code");
+          console.error("Error updating components:", error);
+          showNotification("error", "Error", "Failed to update components");
         } finally {
-          // Reset button state
-          saveCustomCodeButton.disabled = false;
-          customCodeLoading.classList.add("hidden");
-          customCodeButtonText.textContent = "Save Changes";
+          saveComponentsButton.disabled = false;
+          componentsLoading.classList.add("hidden");
+          componentsButtonText.textContent = "Save Changes";
         }
       });
 

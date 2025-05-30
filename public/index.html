@@ -394,10 +394,34 @@
         text-align: center;
       }
 
-      /* Custom Code Section Styles */
-      .custom-code-section {
+      /* Components Section Styles */
+      .components-section {
         padding: 3rem 0;
         margin-bottom: 3rem;
+      }
+
+      .component-item {
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        text-align: center;
+        background-color: var(--secondary-bg);
+        color: var(--text-color);
+      }
+
+      .component-item iframe {
+        margin-top: 1rem;
+        border-radius: 8px;
+      }
+
+      .component-button {
+        display: inline-block;
+        margin-top: 1rem;
+        background-color: var(--primary-color);
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        text-decoration: none;
       }
 
       .services-section {
@@ -1649,11 +1673,11 @@
           </div>
         </section>
 
-        <!-- NEW: Custom Code Section - PROPERLY POSITIONED -->
-        <section id="custom-code-section" class="custom-code-section">
+        <!-- NEW: Components Section -->
+        <section id="components-section" class="components-section">
           <div class="container">
-            <div id="custom-code-placeholder">
-              <!-- Custom code will be injected here -->
+            <div id="components-container">
+              <!-- Components will be injected here -->
             </div>
           </div>
         </section>
@@ -2231,14 +2255,9 @@
             reorderSections(data.sectionOrder);
           }
 
-          // UPDATED: Inject custom code if provided - now in proper section
-          if (data.customCode) {
-            const placeholder = document.getElementById(
-              "custom-code-placeholder"
-            );
-            if (placeholder) {
-              placeholder.innerHTML = data.customCode;
-            }
+          // Inject components if provided
+          if (data.components && Array.isArray(data.components)) {
+            loadComponents(data.components);
           }
 
           // FIXED: Show/hide sections based on content - COMPREHENSIVE CHECK
@@ -2299,14 +2318,14 @@
               .classList.remove("hidden");
           }
 
-          // Hide custom code section if no custom code
-          if (!data.customCode || data.customCode.trim() === "") {
+          // Hide components section if no components
+          if (!data.components || data.components.length === 0) {
             document
-              .getElementById("custom-code-section")
+              .getElementById("components-section")
               .classList.add("hidden");
           } else {
             document
-              .getElementById("custom-code-section")
+              .getElementById("components-section")
               .classList.remove("hidden");
           }
 
@@ -2458,6 +2477,78 @@
             productsGrid.appendChild(productCard);
           });
         }
+      }
+
+      // Load custom components - NEW
+      function loadComponents(components) {
+        const container = document.getElementById("components-container");
+        container.innerHTML = "";
+
+        if (!components || components.length === 0) {
+          return;
+        }
+
+        components.forEach((comp) => {
+          if (!comp.enabled) return;
+
+          const section = document.createElement("div");
+          section.className = "component-item";
+          if (comp.bgColor) {
+            section.style.backgroundColor = comp.bgColor;
+          } else if (comp.color) {
+            section.style.backgroundColor = comp.color;
+          }
+          if (comp.textColor) {
+            section.style.color = comp.textColor;
+          }
+
+          const title = document.createElement("h3");
+          title.textContent = comp.title || "";
+          section.appendChild(title);
+
+          if (comp.text) {
+            const p = document.createElement("p");
+            p.textContent = comp.text;
+            section.appendChild(p);
+          }
+
+          if (comp.type === "video" && comp.videoUrl) {
+            const iframe = document.createElement("iframe");
+            iframe.src = comp.videoUrl;
+            iframe.width = "100%";
+            iframe.height = "315";
+            iframe.style.border = "none";
+            iframe.allowFullscreen = true;
+            section.appendChild(iframe);
+          }
+
+          if (comp.buttonText && comp.buttonUrl) {
+            const btn = document.createElement("a");
+            btn.href = comp.buttonUrl;
+            btn.className = "component-button";
+            btn.textContent = comp.buttonText;
+            btn.target = "_blank";
+            section.appendChild(btn);
+          }
+
+          if (comp.image) {
+            const img = document.createElement("img");
+            img.src = comp.image;
+            img.alt = comp.title || "component";
+            img.style.maxWidth = "100%";
+            img.style.marginTop = "1rem";
+            section.appendChild(img);
+          } else if (comp.icon) {
+            const iconEl = document.createElement("i");
+            iconEl.className = comp.icon;
+            iconEl.style.display = "block";
+            iconEl.style.fontSize = "2rem";
+            iconEl.style.marginTop = "1rem";
+            section.appendChild(iconEl);
+          }
+
+          container.appendChild(section);
+        });
       }
 
       // Load gallery images
