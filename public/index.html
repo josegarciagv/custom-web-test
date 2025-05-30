@@ -400,6 +400,7 @@
         margin-bottom: 3rem;
       }
 
+
       .component-item {
         padding: 1.5rem;
         border-radius: 8px;
@@ -2504,6 +2505,7 @@
             section.style.backgroundColor = comp.color;
           }
 
+
           if (comp.image) {
             const img = document.createElement("img");
             img.src = comp.image;
@@ -2515,7 +2517,6 @@
             icon.className = comp.icon;
             section.appendChild(icon);
           }
-
           const title = document.createElement("h3");
           title.textContent = comp.title || "";
           section.appendChild(title);
