@@ -448,6 +448,26 @@
         margin-bottom: 1rem;
       }
 
+
+      .component-admin-item {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .component-admin-item input,
+      .component-admin-item textarea {
+        width: 100%;
+        margin-bottom: 0.5rem;
+      }
+
+      .component-actions {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-end;
+        width: 100%;
+
+      }
+
       .link-info,
       .service-info,
       .contact-info-info,
@@ -510,7 +530,8 @@
       .contact-info-actions,
       .faq-actions,
       .product-actions,
-      .blog-post-actions {
+      .blog-post-actions,
+      .component-actions {
         display: flex;
         gap: 0.5rem;
       }
@@ -4292,6 +4313,7 @@
       });
 
       function addComponentItem(comp) {
+
         const index = componentsList.children.length;
         const wrapper = document.createElement("div");
         wrapper.className = "component-admin-item";
@@ -4320,6 +4342,7 @@
             comp.image || ""
           }" />
         `;
+
 
         componentsList.appendChild(wrapper);
       }
