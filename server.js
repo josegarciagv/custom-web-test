@@ -86,14 +86,14 @@ function optimizeImageBuffer(buffer, mimetype) {
   return buffer
 }
 
-// Connect to MongoDB
+// Connect to MongoDB with fallback URL
+const mongoUrl =
+  process.env.MONGO_URL || "mongodb://localhost:27017/customweb";
+
 mongoose
-  .connect(
-    process.env.MONGO_URL ||
 
-      "mongodb://localhost:27017/customweb"
+  .connect(mongoUrl)
 
-  )
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err))
 
@@ -163,7 +163,6 @@ const componentSchema = new mongoose.Schema({
   buttonUrl: { type: String },
   image: { type: String },
   icon: { type: String },
-
   color: { type: String }
 
 })
@@ -237,57 +236,8 @@ const profileSchema = new mongoose.Schema({
   contactInfo: [contactInfoSchema],
   faqs: [faqSchema],
   galleryImages: [{ type: String }],
-  testimonials: [{
-    name: String,
-    videoUrl: String,
-    description: String
-  }],
-  countdown: {
-    targetDate: String,
-    finalMessage: String,
-    style: String
-  },
-  pricingPlans: [{
-    name: String,
-    price: String,
-    benefits: String,
-    icon: String,
-    buttonText: String,
-    buttonUrl: String
-  }],
-  featuredVideos: [{
-    title: String,
-    description: String,
-    url: String,
-    thumbnail: String
-  }],
-  newsletter: {
-    title: String,
-    description: String
-  },
-  stats: [{
-    icon: String,
-    number: String,
-    description: String
-  }],
-  quotes: [{
-    text: String,
-    author: String,
-    icon: String
-  }],
-  resources: [{
-    name: String,
-    description: String,
-    url: String,
-    icon: String
-  }],
-  map: {
-    address: String,
-    iframe: String
-  },
-  footer: {
-    text: String
-  },
+
+  components: [componentSchema],
 
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
@@ -471,56 +421,8 @@ async function initializeDefaultProfile() {
           "/images/gallery-2.jpg",
           "/images/gallery-3.jpg"
         ],
-        testimonials: [
-          {
-            name: "Jane",
-            videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-            description: "Great service!"
-          }
-        ],
-        countdown: {
-          targetDate: "2025-12-31",
-          finalMessage: "Launched!",
-          style: "digital"
-        },
-        pricingPlans: [
-          {
-            name: "Basic",
-            price: "$9/mo",
-            benefits: "Feature A, Feature B",
-            icon: "star",
-            buttonText: "Choose",
-            buttonUrl: "#"
-          }
-        ],
-        featuredVideos: [
-          {
-            title: "Intro",
-            description: "Watch our intro",
-            url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-            thumbnail: ""
-          }
-        ],
-        newsletter: {
-          title: "Join our newsletter",
-          description: "Stay updated"
-        },
-        stats: [
-          { icon: "users", number: "1000+", description: "Happy Clients" }
-        ],
-        quotes: [
-          { text: "Innovation distinguishes a leader", author: "Steve Jobs", icon: "quote-right" }
-        ],
-        resources: [
-          { name: "PDF Guide", description: "Helpful guide", url: "#", icon: "file-pdf" }
-        ],
-        map: {
-          address: "123 Main Street",
-          iframe: ""
-        },
-        footer: {
-          text: "© 2025 My Company"
-        }
+
+        components: []
 
       })
       
@@ -629,16 +531,8 @@ app.put("/api/profile", authenticate, conditionalUpload("profileImage"), async (
       contactInfoCardColor,
       sectionOrder,
       customCode,
-      testimonials,
-      countdown,
-      pricingPlans,
-      featuredVideos,
-      newsletter,
-      stats,
-      quotes,
-      resources,
-      map,
-      footer,
+
+      components,
       showContactForm,
       servicesSectionTitle,
       productsSectionTitle,
@@ -690,16 +584,11 @@ app.put("/api/profile", authenticate, conditionalUpload("profileImage"), async (
     if (contactInfoCardColor) profile.contactInfoCardColor = contactInfoCardColor
     if (sectionOrder) profile.sectionOrder = Array.isArray(sectionOrder) ? sectionOrder : sectionOrder.split(',')
     if (customCode !== undefined) profile.customCode = customCode
-    if (testimonials !== undefined) profile.testimonials = Array.isArray(testimonials) ? testimonials : []
-    if (countdown !== undefined) profile.countdown = countdown
-    if (pricingPlans !== undefined) profile.pricingPlans = Array.isArray(pricingPlans) ? pricingPlans : []
-    if (featuredVideos !== undefined) profile.featuredVideos = Array.isArray(featuredVideos) ? featuredVideos : []
-    if (newsletter !== undefined) profile.newsletter = newsletter
-    if (stats !== undefined) profile.stats = Array.isArray(stats) ? stats : []
-    if (quotes !== undefined) profile.quotes = Array.isArray(quotes) ? quotes : []
-    if (resources !== undefined) profile.resources = Array.isArray(resources) ? resources : []
-    if (map !== undefined) profile.map = map
-    if (footer !== undefined) profile.footer = footer
+
+    if (components !== undefined) {
+      profile.components = Array.isArray(components) ? components : []
+    }
+
     
     // Update contact settings
     if (contactEmail) profile.contactEmail = contactEmail

@@ -2207,7 +2207,7 @@
                   id="section-order"
                   class="form-input"
 
-                  placeholder="links-section,services-section,products-section,blog-section,gallery-section,testimonials-section,countdown-section,pricing-section,video-section,newsletter-section,stats-section,quote-section,resources-section,map-section,info-section,faq-section,contact-section,footer-section,custom-code-section"
+                  placeholder="services-section,products-section,gallery-section,blog-section,components-section,faq-section,info-section,contact-section"
 
                 />
               </div>
@@ -2545,28 +2545,7 @@
       const componentsLoading = document.getElementById("components-loading");
       const componentsButtonText = document.getElementById("components-button-text");
 
-      const saveTestimonialsButton = document.getElementById("save-testimonials-button");
-      const saveCountdownButton = document.getElementById("save-countdown-button");
-      const savePricingButton = document.getElementById("save-pricing-button");
-      const saveVideosButton = document.getElementById("save-videos-button");
-      const saveNewsletterButton = document.getElementById("save-newsletter-button");
-      const saveStatsButton = document.getElementById("save-stats-button");
-      const saveQuotesButton = document.getElementById("save-quotes-button");
-      const saveResourcesButton = document.getElementById("save-resources-button");
-      const saveMapButton = document.getElementById("save-map-button");
-      const saveFooterButton = document.getElementById("save-footer-button");
 
-      // New Section Textareas
-      const testimonialsInput = document.getElementById("testimonials-json");
-      const countdownInput = document.getElementById("countdown-json");
-      const pricingInput = document.getElementById("pricing-json");
-      const videosInput = document.getElementById("videos-json");
-      const newsletterInput = document.getElementById("newsletter-json");
-      const statsInput = document.getElementById("stats-json");
-      const quotesInput = document.getElementById("quotes-json");
-      const resourcesInput = document.getElementById("resources-json");
-      const mapInput = document.getElementById("map-json");
-      const footerInput = document.getElementById("footer-json");
 
       // Service Icons List
       const serviceIcons = [
@@ -2983,17 +2962,7 @@
 
         sectionOrderInput.value = (data.sectionOrder || []).join(",");
 
-        customCodeInput.value = data.customCode || "";
-        testimonialsInput.value = JSON.stringify(data.testimonials || [], null, 2);
-        countdownInput.value = JSON.stringify(data.countdown || {}, null, 2);
-        pricingInput.value = JSON.stringify(data.pricingPlans || [], null, 2);
-        videosInput.value = JSON.stringify(data.featuredVideos || [], null, 2);
-        newsletterInput.value = JSON.stringify(data.newsletter || {}, null, 2);
-        statsInput.value = JSON.stringify(data.stats || [], null, 2);
-        quotesInput.value = JSON.stringify(data.quotes || [], null, 2);
-        resourcesInput.value = JSON.stringify(data.resources || [], null, 2);
-        mapInput.value = JSON.stringify(data.map || {}, null, 2);
-        footerInput.value = JSON.stringify(data.footer || {}, null, 2);
+        loadComponentsAdmin(data.components || []);
 
 
         // Contact section
@@ -4605,7 +4574,6 @@
           buttonUrl: "",
           icon: "",
           color: "",
-
           image: "",
         });
       });
