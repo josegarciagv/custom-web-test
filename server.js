@@ -205,25 +205,19 @@ const profileSchema = new mongoose.Schema({
   sectionOrder: {
     type: [String],
     default: [
+
+      "links-section",
+      "components-section",
       "services-section",
       "products-section",
       "blog-section",
       "components-section",
       "gallery-section",
-      "testimonials-section",
-      "countdown-section",
-      "pricing-section",
-      "video-section",
-      "newsletter-section",
-      "stats-section",
-      "quote-section",
-      "resources-section",
-      "map-section",
-      "info-section",
+
       "faq-section",
-      "contact-section",
-      "footer-section",
-      "custom-code-section"
+      "info-section",
+      "contact-section"
+
     ]
   },
   customCode: { type: String, default: "" },
@@ -312,25 +306,19 @@ async function initializeDefaultProfile() {
         contactSectionTitle: "Contact Me",
         // Default ordering mirrors the placeholder shown in the admin UI.
         sectionOrder: [
+
+          "links-section",
+          "components-section",
+
           "services-section",
           "products-section",
           "blog-section",
           "components-section",
           "gallery-section",
-          "testimonials-section",
-          "countdown-section",
-          "pricing-section",
-          "video-section",
-          "newsletter-section",
-          "stats-section",
-          "quote-section",
-          "resources-section",
-          "map-section",
-          "info-section",
+
           "faq-section",
-          "contact-section",
-          "footer-section",
-          "custom-code-section"
+          "info-section",
+          "contact-section"
         ],
         customCode: "",
         showContactForm: true,
@@ -584,7 +572,6 @@ app.put("/api/profile", authenticate, conditionalUpload("profileImage"), async (
     if (contactInfoCardColor) profile.contactInfoCardColor = contactInfoCardColor
     if (sectionOrder) profile.sectionOrder = Array.isArray(sectionOrder) ? sectionOrder : sectionOrder.split(',')
     if (customCode !== undefined) profile.customCode = customCode
-
     if (components !== undefined) {
       profile.components = Array.isArray(components) ? components : []
     }

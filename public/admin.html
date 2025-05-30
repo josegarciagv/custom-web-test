@@ -930,6 +930,18 @@
           <li class="sidebar-nav-item">
             <a
               href="#components"
+
+              class="sidebar-nav-link"
+              data-section="components-section"
+            >
+              <i class="fas fa-cubes sidebar-nav-icon"></i>
+              <span class="sidebar-nav-text">Components</span>
+            </a>
+          </li>
+          <li class="sidebar-nav-item">
+            <a
+              href="#custom-code"
+
               class="sidebar-nav-link"
               data-section="components-section"
             >
@@ -2207,7 +2219,7 @@
                   id="section-order"
                   class="form-input"
 
-                  placeholder="services-section,products-section,gallery-section,blog-section,components-section,faq-section,info-section,contact-section"
+                  placeholder="links-section,components-section,services-section,products-section,blog-section,gallery-section,faq-section,info-section,contact-section"
 
                 />
               </div>
@@ -2225,6 +2237,28 @@
 
         <!-- Components Section -->
         <section id="components-section" class="section hidden">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Components</h2>
+            </div>
+            <div class="components-list" id="components-list"></div>
+            <button class="button primary-button" id="add-component-button">
+              Add Component
+            </button>
+            <button
+              type="button"
+              class="button primary-button"
+              id="save-components-button"
+            >
+              <span id="components-loading" class="loading hidden"></span>
+              <span id="components-button-text">Save Changes</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Custom Code Section -->
+        <section id="custom-code-section" class="section hidden">
+
           <div class="card">
             <div class="card-header">
               <h2 class="card-title">Components</h2>
@@ -2538,14 +2572,21 @@
       const orderLoading = document.getElementById("order-loading");
       const orderButtonText = document.getElementById("order-button-text");
 
+
+      // Custom Code Elements - RESTORED
+      const customCodeForm = document.getElementById("custom-code-form");
+      const customCodeInput = document.getElementById("custom-code");
+      const saveCustomCodeButton = document.getElementById("save-custom-code-button");
+      const customCodeLoading = document.getElementById("custom-code-loading");
+      const customCodeButtonText = document.getElementById("custom-code-button-text");
+
+
       // Components Elements - NEW
       const componentsList = document.getElementById("components-list");
       const addComponentButton = document.getElementById("add-component-button");
       const saveComponentsButton = document.getElementById("save-components-button");
       const componentsLoading = document.getElementById("components-loading");
       const componentsButtonText = document.getElementById("components-button-text");
-
-
 
       // Service Icons List
       const serviceIcons = [
@@ -2961,7 +3002,7 @@
         updateColorPreviews(data);
 
         sectionOrderInput.value = (data.sectionOrder || []).join(",");
-
+        customCodeInput.value = data.customCode || "";
         loadComponentsAdmin(data.components || []);
 
 
@@ -4555,10 +4596,10 @@
           showNotification("error", "Error", "Failed to update section order");
         } finally {
           // Reset button state
-          saveOrderButton.disabled = false;
-          orderLoading.classList.add("hidden");
-          orderButtonText.textContent = "Save Changes";
-        }
+      saveOrderButton.disabled = false;
+      orderLoading.classList.add("hidden");
+      orderButtonText.textContent = "Save Changes";
+      }
       });
 
       // Components management
@@ -4668,66 +4709,117 @@
           console.error("Error updating components:", error);
           showNotification("error", "Error", "Failed to update components");
         } finally {
-          saveComponentsButton.disabled = false;
-          componentsLoading.classList.add("hidden");
-          componentsButtonText.textContent = "Save Changes";
+          saveCustomCodeButton.disabled = false;
+          customCodeLoading.classList.add("hidden");
+          customCodeButtonText.textContent = "Save Changes";
         }
       });
 
-      async function saveJsonField(button, field, input) {
+      // Components management
+      addComponentButton.addEventListener("click", () => {
+        addComponentItem({
+          type: "custom",
+          enabled: true,
+          title: "",
+          text: "",
+          buttonText: "",
+          buttonUrl: "",
+          icon: "",
+          color: "",
+          image: "",
+        });
+      });
+
+      function addComponentItem(comp) {
+        const index = componentsList.children.length;
+        const wrapper = document.createElement("div");
+        wrapper.className = "component-admin-item";
+
+        wrapper.innerHTML = `
+          <label>Enabled <input type="checkbox" class="comp-enabled" ${
+            comp.enabled ? "checked" : ""
+          } /></label>
+          <input type="text" class="comp-title" placeholder="Title" value="${
+            comp.title || ""
+          }" />
+          <textarea class="comp-text" placeholder="Text">${comp.text || ""}</textarea>
+          <input type="text" class="comp-buttonText" placeholder="Button Text" value="${
+            comp.buttonText || ""
+          }" />
+          <input type="text" class="comp-buttonUrl" placeholder="Button URL" value="${
+            comp.buttonUrl || ""
+          }" />
+          <input type="text" class="comp-icon" placeholder="Icon" value="${
+            comp.icon || ""
+          }" />
+          <input type="text" class="comp-color" placeholder="Color" value="${
+            comp.color || ""
+          }" />
+          <input type="text" class="comp-image" placeholder="Image URL" value="${
+            comp.image || ""
+          }" />
+        `;
+
+        componentsList.appendChild(wrapper);
+      }
+
+      function loadComponentsAdmin(comps) {
+        componentsList.innerHTML = "";
+        comps.forEach((c) => addComponentItem(c));
+      }
+
+      saveComponentsButton.addEventListener("click", async () => {
+        const components = [];
+        componentsList.querySelectorAll(".component-admin-item").forEach((el) => {
+          components.push({
+            enabled: el.querySelector(".comp-enabled").checked,
+            title: el.querySelector(".comp-title").value,
+            text: el.querySelector(".comp-text").value,
+            buttonText: el.querySelector(".comp-buttonText").value,
+            buttonUrl: el.querySelector(".comp-buttonUrl").value,
+            icon: el.querySelector(".comp-icon").value,
+            color: el.querySelector(".comp-color").value,
+            image: el.querySelector(".comp-image").value,
+            type: "custom",
+          });
+        });
+
         try {
           const token = checkAuthStatus();
-          button.disabled = true;
+          saveComponentsButton.disabled = true;
+          componentsLoading.classList.remove("hidden");
+          componentsButtonText.textContent = "Saving...";
+
+
           const response = await fetch("/api/profile", {
             method: "PUT",
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ [field]: JSON.parse(input.value || "null") }),
+            body: JSON.stringify({
+              components,
+            }),
           });
-          if (!response.ok) throw new Error("Failed to update");
+
+          if (!response.ok) {
+            throw new Error("Failed to update components");
+          }
+
           const data = await response.json();
           profileData = data.profile;
-          showNotification("success", "Success", "Updated successfully");
-        } catch (err) {
-          console.error(err);
-          showNotification("error", "Error", "Update failed");
-        } finally {
-          button.disabled = false;
-        }
-      }
 
-      saveTestimonialsButton.addEventListener("click", () =>
-        saveJsonField(saveTestimonialsButton, "testimonials", testimonialsInput)
-      );
-      saveCountdownButton.addEventListener("click", () =>
-        saveJsonField(saveCountdownButton, "countdown", countdownInput)
-      );
-      savePricingButton.addEventListener("click", () =>
-        saveJsonField(savePricingButton, "pricingPlans", pricingInput)
-      );
-      saveVideosButton.addEventListener("click", () =>
-        saveJsonField(saveVideosButton, "featuredVideos", videosInput)
-      );
-      saveNewsletterButton.addEventListener("click", () =>
-        saveJsonField(saveNewsletterButton, "newsletter", newsletterInput)
-      );
-      saveStatsButton.addEventListener("click", () =>
-        saveJsonField(saveStatsButton, "stats", statsInput)
-      );
-      saveQuotesButton.addEventListener("click", () =>
-        saveJsonField(saveQuotesButton, "quotes", quotesInput)
-      );
-      saveResourcesButton.addEventListener("click", () =>
-        saveJsonField(saveResourcesButton, "resources", resourcesInput)
-      );
-      saveMapButton.addEventListener("click", () =>
-        saveJsonField(saveMapButton, "map", mapInput)
-      );
-      saveFooterButton.addEventListener("click", () =>
-        saveJsonField(saveFooterButton, "footer", footerInput)
-      );
+          showNotification("success", "Success", "Components updated successfully");
+        } catch (error) {
+          console.error("Error updating components:", error);
+          showNotification("error", "Error", "Failed to update components");
+        } finally {
+          saveComponentsButton.disabled = false;
+          componentsLoading.classList.add("hidden");
+          componentsButtonText.textContent = "Save Changes";
+        }
+      });
+
 
       // Profile image input
       profileImageInput.addEventListener("change", (e) => {

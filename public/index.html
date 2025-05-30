@@ -400,6 +400,10 @@
         margin-bottom: 3rem;
       }
 
+      .custom-code-section {
+        padding: 0;
+        margin: 0;
+      }
 
       .component-item {
         padding: 1.5rem;
@@ -1726,6 +1730,11 @@
             </div>
           </div>
         </section>
+
+        <!-- Custom Code Section -->
+        <section id="custom-code-section" class="custom-code-section">
+          <div id="custom-code-container"></div>
+        </section>
       </div>
 
       <!-- Enhanced Modal -->
@@ -2314,6 +2323,13 @@
           // Inject components if provided
           if (data.components && Array.isArray(data.components)) {
             loadComponents(data.components);
+
+          }
+
+          // Inject custom code if provided
+          if (data.customCode) {
+            loadCustomCode(data.customCode);
+
           }
 
           // FIXED: Show/hide sections based on content - COMPREHENSIVE CHECK
@@ -2436,6 +2452,19 @@
 
           // Hide components section if no components
           if (!data.components || data.components.length === 0) {
+
+            document
+              .getElementById("components-section")
+              .classList.add("hidden");
+          } else {
+            document
+              .getElementById("components-section")
+              .classList.remove("hidden");
+          }
+
+          // Hide custom code section if no custom code
+          if (!data.customCode) {
+
             document
               .getElementById("components-section")
               .classList.add("hidden");
@@ -2614,7 +2643,7 @@
             section.style.backgroundColor = comp.color;
           }
 
-
+n
           const title = document.createElement("h3");
           title.textContent = comp.title || "";
           section.appendChild(title);
@@ -2639,6 +2668,14 @@
           container.appendChild(section);
         });
       }
+
+
+      // Inject custom code snippet
+      function loadCustomCode(code) {
+        const container = document.getElementById("custom-code-container");
+        container.innerHTML = code;
+      }
+
 
       // Load gallery images
       function loadGalleryImages(images) {
