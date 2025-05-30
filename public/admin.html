@@ -448,6 +448,12 @@
         margin-bottom: 1rem;
       }
 
+      .component-admin-item input,
+      .component-admin-item textarea {
+        margin-right: 0.5rem;
+        flex: 1;
+      }
+
       .link-info,
       .service-info,
       .contact-info-info,
@@ -510,7 +516,8 @@
       .contact-info-actions,
       .faq-actions,
       .product-actions,
-      .blog-post-actions {
+      .blog-post-actions,
+      .component-actions {
         display: flex;
         gap: 0.5rem;
       }
@@ -4319,7 +4326,16 @@
           <input type="text" class="comp-image" placeholder="Image URL" value="${
             comp.image || ""
           }" />
-        `;
+<div class="component-actions">
+  <button class="button danger-button delete-comp-button" title="Delete">
+    <i class="fas fa-trash"></i>
+  </button>
+</div>
+
+const deleteBtn = wrapper.querySelector(".delete-comp-button");
+deleteBtn.addEventListener("click", () => {
+  wrapper.remove();
+});
 
         componentsList.appendChild(wrapper);
       }
