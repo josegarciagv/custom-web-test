@@ -180,6 +180,9 @@ const profileSchema = new mongoose.Schema({
   infoSectionTitle: { type: String, default: "Contact Information" },
   faqSectionTitle: { type: String, default: "Frequently Asked Questions" },
   contactSectionTitle: { type: String, default: "Contact Me" },
+  testimonialsSectionTitle: { type: String, default: "Testimonials" },
+  pricingSectionTitle: { type: String, default: "Pricing" },
+  statsSectionTitle: { type: String, default: "Our Stats" },
   sectionOrder: {
     type: [String],
     default: [
@@ -188,9 +191,20 @@ const profileSchema = new mongoose.Schema({
       "products-section",
       "blog-section",
       "gallery-section",
+      "testimonials-section",
+      "countdown-section",
+      "pricing-section",
+      "video-section",
+      "newsletter-section",
+      "stats-section",
+      "quote-section",
+      "resources-section",
+      "map-section",
       "info-section",
       "faq-section",
-      "contact-section"
+      "contact-section",
+      "footer-section",
+      "custom-code-section"
     ]
   },
   customCode: { type: String, default: "" },
@@ -203,6 +217,57 @@ const profileSchema = new mongoose.Schema({
   contactInfo: [contactInfoSchema],
   faqs: [faqSchema],
   galleryImages: [{ type: String }],
+  testimonials: [{
+    name: String,
+    videoUrl: String,
+    description: String
+  }],
+  countdown: {
+    targetDate: String,
+    finalMessage: String,
+    style: String
+  },
+  pricingPlans: [{
+    name: String,
+    price: String,
+    benefits: String,
+    icon: String,
+    buttonText: String,
+    buttonUrl: String
+  }],
+  featuredVideos: [{
+    title: String,
+    description: String,
+    url: String,
+    thumbnail: String
+  }],
+  newsletter: {
+    title: String,
+    description: String
+  },
+  stats: [{
+    icon: String,
+    number: String,
+    description: String
+  }],
+  quotes: [{
+    text: String,
+    author: String,
+    icon: String
+  }],
+  resources: [{
+    name: String,
+    description: String,
+    url: String,
+    icon: String
+  }],
+  map: {
+    address: String,
+    iframe: String
+  },
+  footer: {
+    text: String
+  },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 })
@@ -280,9 +345,20 @@ async function initializeDefaultProfile() {
           "products-section",
           "blog-section",
           "gallery-section",
+          "testimonials-section",
+          "countdown-section",
+          "pricing-section",
+          "video-section",
+          "newsletter-section",
+          "stats-section",
+          "quote-section",
+          "resources-section",
+          "map-section",
           "info-section",
           "faq-section",
-          "contact-section"
+          "contact-section",
+          "footer-section",
+          "custom-code-section"
         ],
         customCode: "",
         showContactForm: true,
@@ -372,7 +448,57 @@ async function initializeDefaultProfile() {
           "/images/gallery-1.jpg",
           "/images/gallery-2.jpg",
           "/images/gallery-3.jpg"
-        ]
+        ],
+        testimonials: [
+          {
+            name: "Jane",
+            videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            description: "Great service!"
+          }
+        ],
+        countdown: {
+          targetDate: "2025-12-31",
+          finalMessage: "Launched!",
+          style: "digital"
+        },
+        pricingPlans: [
+          {
+            name: "Basic",
+            price: "$9/mo",
+            benefits: "Feature A, Feature B",
+            icon: "star",
+            buttonText: "Choose",
+            buttonUrl: "#"
+          }
+        ],
+        featuredVideos: [
+          {
+            title: "Intro",
+            description: "Watch our intro",
+            url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            thumbnail: ""
+          }
+        ],
+        newsletter: {
+          title: "Join our newsletter",
+          description: "Stay updated"
+        },
+        stats: [
+          { icon: "users", number: "1000+", description: "Happy Clients" }
+        ],
+        quotes: [
+          { text: "Innovation distinguishes a leader", author: "Steve Jobs", icon: "quote-right" }
+        ],
+        resources: [
+          { name: "PDF Guide", description: "Helpful guide", url: "#", icon: "file-pdf" }
+        ],
+        map: {
+          address: "123 Main Street",
+          iframe: ""
+        },
+        footer: {
+          text: "© 2025 My Company"
+        }
       })
       
       await defaultProfile.save()
@@ -480,6 +606,16 @@ app.put("/api/profile", authenticate, conditionalUpload("profileImage"), async (
       contactInfoCardColor,
       sectionOrder,
       customCode,
+      testimonials,
+      countdown,
+      pricingPlans,
+      featuredVideos,
+      newsletter,
+      stats,
+      quotes,
+      resources,
+      map,
+      footer,
       showContactForm,
       servicesSectionTitle,
       productsSectionTitle,
@@ -531,6 +667,16 @@ app.put("/api/profile", authenticate, conditionalUpload("profileImage"), async (
     if (contactInfoCardColor) profile.contactInfoCardColor = contactInfoCardColor
     if (sectionOrder) profile.sectionOrder = Array.isArray(sectionOrder) ? sectionOrder : sectionOrder.split(',')
     if (customCode !== undefined) profile.customCode = customCode
+    if (testimonials !== undefined) profile.testimonials = Array.isArray(testimonials) ? testimonials : []
+    if (countdown !== undefined) profile.countdown = countdown
+    if (pricingPlans !== undefined) profile.pricingPlans = Array.isArray(pricingPlans) ? pricingPlans : []
+    if (featuredVideos !== undefined) profile.featuredVideos = Array.isArray(featuredVideos) ? featuredVideos : []
+    if (newsletter !== undefined) profile.newsletter = newsletter
+    if (stats !== undefined) profile.stats = Array.isArray(stats) ? stats : []
+    if (quotes !== undefined) profile.quotes = Array.isArray(quotes) ? quotes : []
+    if (resources !== undefined) profile.resources = Array.isArray(resources) ? resources : []
+    if (map !== undefined) profile.map = map
+    if (footer !== undefined) profile.footer = footer
     
     // Update contact settings
     if (contactEmail) profile.contactEmail = contactEmail
