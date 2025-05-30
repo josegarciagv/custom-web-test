@@ -400,7 +400,6 @@
         margin-bottom: 3rem;
       }
 
-
       .component-item {
         padding: 1.5rem;
         border-radius: 8px;
@@ -408,18 +407,6 @@
         text-align: center;
         background-color: var(--secondary-bg);
         color: var(--text-color);
-      }
-
-      .component-item i {
-        font-size: 2rem;
-        margin-bottom: 0.5rem;
-        display: block;
-      }
-
-      .component-image {
-        max-width: 100%;
-        border-radius: 8px;
-        margin-bottom: 0.5rem;
       }
 
       .component-button {
@@ -2506,17 +2493,6 @@
           }
 
 
-          if (comp.image) {
-            const img = document.createElement("img");
-            img.src = comp.image;
-            img.alt = comp.title || "component";
-            img.className = "component-image";
-            section.appendChild(img);
-          } else if (comp.icon) {
-            const icon = document.createElement("i");
-            icon.className = comp.icon;
-            section.appendChild(icon);
-          }
           const title = document.createElement("h3");
           title.textContent = comp.title || "";
           section.appendChild(title);
