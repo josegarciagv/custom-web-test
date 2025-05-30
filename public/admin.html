@@ -448,9 +448,11 @@
         margin-bottom: 1rem;
       }
 
+
       .component-admin-item {
         flex-wrap: wrap;
         gap: 0.5rem;
+
       }
 
       .link-info,
@@ -515,7 +517,8 @@
       .contact-info-actions,
       .faq-actions,
       .product-actions,
-      .blog-post-actions {
+      .blog-post-actions,
+      .component-actions {
         display: flex;
         gap: 0.5rem;
       }
@@ -4462,6 +4465,7 @@
         wrapper.className = "component-admin-item";
 
         wrapper.innerHTML = `
+
           <div class="comp-fields">
             <label>Enabled <input type="checkbox" class="comp-enabled" ${
               comp.enabled ? "checked" : ""
@@ -4511,6 +4515,7 @@
           if (next) componentsList.insertBefore(next, wrapper);
         });
 
+
         componentsList.appendChild(wrapper);
       }
 
@@ -4531,11 +4536,13 @@
             icon: el.querySelector(".comp-icon").value,
             color: el.querySelector(".comp-color").value,
             image: el.querySelector(".comp-image").value,
+
             gallery: el
               .querySelector(".comp-gallery")
               .value.split(",")
               .map((t) => t.trim())
               .filter((t) => t),
+
             type: "custom",
           });
         });

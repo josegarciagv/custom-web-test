@@ -432,6 +432,7 @@
         border-radius: 4px;
       }
 
+
       .services-section {
         padding: 3rem 0;
         background-color: var(--services-bg);
@@ -2505,6 +2506,7 @@
             section.style.backgroundColor = comp.color;
           }
 
+
           const title = document.createElement("h3");
           title.textContent = comp.title || "";
           section.appendChild(title);
@@ -2514,6 +2516,7 @@
             p.textContent = comp.text;
             section.appendChild(p);
           }
+
 
           if (comp.gallery && Array.isArray(comp.gallery) && comp.gallery.length > 0) {
             const galleryWrapper = document.createElement("div");
@@ -2526,6 +2529,7 @@
             });
             section.appendChild(galleryWrapper);
           }
+
 
           if (comp.buttonText && comp.buttonUrl) {
             const btn = document.createElement("a");
