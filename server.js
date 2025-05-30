@@ -163,7 +163,9 @@ const componentSchema = new mongoose.Schema({
   buttonUrl: { type: String },
   image: { type: String },
   icon: { type: String },
-  color: { type: String }
+  color: { type: String },
+  gallery: [{ type: String }]
+
 })
 
 // Profile Schema

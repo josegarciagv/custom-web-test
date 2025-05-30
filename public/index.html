@@ -419,6 +419,20 @@
         text-decoration: none;
       }
 
+      .component-gallery {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+        justify-content: center;
+      }
+
+      .component-gallery-image {
+        max-width: 120px;
+        border-radius: 4px;
+      }
+
+
       .services-section {
         padding: 3rem 0;
         background-color: var(--services-bg);
@@ -2502,6 +2516,20 @@
             p.textContent = comp.text;
             section.appendChild(p);
           }
+
+
+          if (comp.gallery && Array.isArray(comp.gallery) && comp.gallery.length > 0) {
+            const galleryWrapper = document.createElement("div");
+            galleryWrapper.className = "component-gallery";
+            comp.gallery.forEach((imgSrc) => {
+              const img = document.createElement("img");
+              img.src = imgSrc;
+              img.className = "component-gallery-image";
+              galleryWrapper.appendChild(img);
+            });
+            section.appendChild(galleryWrapper);
+          }
+
 
           if (comp.buttonText && comp.buttonUrl) {
             const btn = document.createElement("a");
