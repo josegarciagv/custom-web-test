@@ -148,6 +148,19 @@ const faqSchema = new mongoose.Schema({
   answer: { type: String, required: true }
 })
 
+// Component Schema - NEW
+const componentSchema = new mongoose.Schema({
+  type: { type: String, required: true },
+  enabled: { type: Boolean, default: true },
+  title: { type: String },
+  text: { type: String },
+  buttonText: { type: String },
+  buttonUrl: { type: String },
+  image: { type: String },
+  icon: { type: String },
+  color: { type: String }
+})
+
 // Profile Schema
 const profileSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -180,10 +193,11 @@ const profileSchema = new mongoose.Schema({
   infoSectionTitle: { type: String, default: "Contact Information" },
   faqSectionTitle: { type: String, default: "Frequently Asked Questions" },
   contactSectionTitle: { type: String, default: "Contact Me" },
+  // Default ordering for built-in sections. Components can be inserted
+  // dynamically and don't need an entry here.
   sectionOrder: {
     type: [String],
     default: [
-      "links-section",
       "services-section",
       "products-section",
       "blog-section",
@@ -203,6 +217,7 @@ const profileSchema = new mongoose.Schema({
   contactInfo: [contactInfoSchema],
   faqs: [faqSchema],
   galleryImages: [{ type: String }],
+  components: [componentSchema],
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 })
@@ -274,8 +289,8 @@ async function initializeDefaultProfile() {
         infoSectionTitle: "Contact Information",
         faqSectionTitle: "Frequently Asked Questions",
         contactSectionTitle: "Contact Me",
+        // Default ordering mirrors the placeholder shown in the admin UI.
         sectionOrder: [
-          "links-section",
           "services-section",
           "products-section",
           "blog-section",
@@ -372,7 +387,8 @@ async function initializeDefaultProfile() {
           "/images/gallery-1.jpg",
           "/images/gallery-2.jpg",
           "/images/gallery-3.jpg"
-        ]
+        ],
+        components: []
       })
       
       await defaultProfile.save()
@@ -480,6 +496,7 @@ app.put("/api/profile", authenticate, conditionalUpload("profileImage"), async (
       contactInfoCardColor,
       sectionOrder,
       customCode,
+      components,
       showContactForm,
       servicesSectionTitle,
       productsSectionTitle,
@@ -531,6 +548,9 @@ app.put("/api/profile", authenticate, conditionalUpload("profileImage"), async (
     if (contactInfoCardColor) profile.contactInfoCardColor = contactInfoCardColor
     if (sectionOrder) profile.sectionOrder = Array.isArray(sectionOrder) ? sectionOrder : sectionOrder.split(',')
     if (customCode !== undefined) profile.customCode = customCode
+    if (components !== undefined) {
+      profile.components = Array.isArray(components) ? components : []
+    }
     
     // Update contact settings
     if (contactEmail) profile.contactEmail = contactEmail
