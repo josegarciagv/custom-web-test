@@ -163,10 +163,8 @@ const componentSchema = new mongoose.Schema({
   buttonUrl: { type: String },
   image: { type: String },
   icon: { type: String },
-  color: { type: String },
-  bgColor: { type: String },
-  textColor: { type: String },
-  videoUrl: { type: String }
+
+  color: { type: String }
 
 })
 
@@ -202,10 +200,11 @@ const profileSchema = new mongoose.Schema({
   infoSectionTitle: { type: String, default: "Contact Information" },
   faqSectionTitle: { type: String, default: "Frequently Asked Questions" },
   contactSectionTitle: { type: String, default: "Contact Me" },
+  // Default ordering for built-in sections. Components can be inserted
+  // dynamically and don't need an entry here.
   sectionOrder: {
     type: [String],
     default: [
-      "links-section",
       "services-section",
       "products-section",
       "blog-section",
@@ -298,8 +297,8 @@ async function initializeDefaultProfile() {
         infoSectionTitle: "Contact Information",
         faqSectionTitle: "Frequently Asked Questions",
         contactSectionTitle: "Contact Me",
+        // Default ordering mirrors the placeholder shown in the admin UI.
         sectionOrder: [
-          "links-section",
           "services-section",
           "products-section",
           "blog-section",

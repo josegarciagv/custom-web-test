@@ -409,10 +409,6 @@
         color: var(--text-color);
       }
 
-      .component-item iframe {
-        margin-top: 1rem;
-        border-radius: 8px;
-      }
 
       .component-button {
         display: inline-block;
@@ -2494,13 +2490,8 @@
           const section = document.createElement("div");
           section.className = "component-item";
 
-          if (comp.bgColor) {
-            section.style.backgroundColor = comp.bgColor;
-          } else if (comp.color) {
+          if (comp.color) {
             section.style.backgroundColor = comp.color;
-          }
-          if (comp.textColor) {
-            section.style.color = comp.textColor;
           }
 
 
@@ -2515,16 +2506,6 @@
           }
 
 
-          if (comp.type === "video" && comp.videoUrl) {
-            const iframe = document.createElement("iframe");
-            iframe.src = comp.videoUrl;
-            iframe.width = "100%";
-            iframe.height = "315";
-            iframe.style.border = "none";
-            iframe.allowFullscreen = true;
-            section.appendChild(iframe);
-          }
-
           if (comp.buttonText && comp.buttonUrl) {
             const btn = document.createElement("a");
             btn.href = comp.buttonUrl;
@@ -2534,22 +2515,6 @@
             section.appendChild(btn);
           }
 
-
-          if (comp.image) {
-            const img = document.createElement("img");
-            img.src = comp.image;
-            img.alt = comp.title || "component";
-            img.style.maxWidth = "100%";
-            img.style.marginTop = "1rem";
-            section.appendChild(img);
-          } else if (comp.icon) {
-            const iconEl = document.createElement("i");
-            iconEl.className = comp.icon;
-            iconEl.style.display = "block";
-            iconEl.style.fontSize = "2rem";
-            iconEl.style.marginTop = "1rem";
-            section.appendChild(iconEl);
-          }
 
 
           container.appendChild(section);

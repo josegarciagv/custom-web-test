@@ -2096,7 +2096,9 @@
                   type="text"
                   id="section-order"
                   class="form-input"
-                  placeholder="services-section,products-section,gallery-section,blog-section,components-section,faq-section,info-section,contact-section"
+
+                  placeholder="services-section,products-section,blog-section,gallery-section,info-section,faq-section,contact-section"
+
                 />
               </div>
               <button
@@ -4448,7 +4450,8 @@
       // Components management
       addComponentButton.addEventListener("click", () => {
         addComponentItem({
-          type: "text",
+
+          type: "custom",
 
           enabled: true,
           title: "",
@@ -4457,9 +4460,6 @@
           buttonUrl: "",
           icon: "",
           color: "",
-          bgColor: "",
-          textColor: "",
-          videoUrl: "",
 
           image: "",
         });
@@ -4475,10 +4475,7 @@
           <label>Enabled <input type="checkbox" class="comp-enabled" ${
             comp.enabled ? "checked" : ""
           } /></label>
-          <select class="comp-type">
-            <option value="text" ${comp.type === "text" ? "selected" : ""}>Text</option>
-            <option value="video" ${comp.type === "video" ? "selected" : ""}>YouTube Video</option>
-          </select>
+
           <input type="text" class="comp-title" placeholder="Title" value="${
             comp.title || ""
           }" />
@@ -4492,30 +4489,14 @@
           <input type="text" class="comp-icon" placeholder="Icon" value="${
             comp.icon || ""
           }" />
-          <input type="text" class="comp-color" placeholder="Accent Color" value="${
+
+          <input type="text" class="comp-color" placeholder="Color" value="${
             comp.color || ""
-          }" />
-          <input type="text" class="comp-bgColor" placeholder="Background Color" value="${
-            comp.bgColor || ""
-          }" />
-          <input type="text" class="comp-textColor" placeholder="Text Color" value="${
-            comp.textColor || ""
-          }" />
-          <input type="text" class="comp-videoUrl" placeholder="YouTube URL" value="${
-            comp.videoUrl || ""
           }" />
           <input type="text" class="comp-image" placeholder="Image URL" value="${
             comp.image || ""
           }" />
-          <button type="button" class="button danger-button comp-delete">Delete</button>
         `;
-
-
-        wrapper.querySelector(".comp-delete").addEventListener("click", () => {
-          if (confirm("Delete this component?")) {
-            wrapper.remove();
-          }
-        });
 
 
         componentsList.appendChild(wrapper);
@@ -4531,7 +4512,6 @@
         componentsList.querySelectorAll(".component-admin-item").forEach((el) => {
           components.push({
             enabled: el.querySelector(".comp-enabled").checked,
-            type: el.querySelector(".comp-type").value,
 
             title: el.querySelector(".comp-title").value,
             text: el.querySelector(".comp-text").value,
@@ -4539,10 +4519,10 @@
             buttonUrl: el.querySelector(".comp-buttonUrl").value,
             icon: el.querySelector(".comp-icon").value,
             color: el.querySelector(".comp-color").value,
-            bgColor: el.querySelector(".comp-bgColor").value,
-            textColor: el.querySelector(".comp-textColor").value,
-            videoUrl: el.querySelector(".comp-videoUrl").value,
+
             image: el.querySelector(".comp-image").value,
+            type: "custom",
+
           });
         });
 
