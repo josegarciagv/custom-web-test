@@ -427,7 +427,8 @@
       .contact-info-list,
       .faqs-list,
       .products-list,
-      .blog-posts-list {
+      .blog-posts-list,
+      .components-list {
         margin-top: 1.5rem;
       }
 
@@ -436,7 +437,8 @@
       .contact-info-item,
       .faq-item,
       .product-item,
-      .blog-post-item {
+      .blog-post-item,
+      .component-admin-item {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -444,6 +446,24 @@
         background-color: var(--secondary-bg);
         border-radius: 0.5rem;
         margin-bottom: 1rem;
+      }
+
+      .component-admin-item {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .component-admin-item input,
+      .component-admin-item textarea {
+        width: 100%;
+        margin-bottom: 0.5rem;
+      }
+
+      .component-actions {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-end;
+        width: 100%;
       }
 
       .link-info,
@@ -919,12 +939,12 @@
           </li>
           <li class="sidebar-nav-item">
             <a
-              href="#custom-code"
+              href="#components"
               class="sidebar-nav-link"
-              data-section="custom-code-section"
+              data-section="components-section"
             >
-              <i class="fas fa-code sidebar-nav-icon"></i>
-              <span class="sidebar-nav-text">Custom Code</span>
+              <i class="fas fa-cubes sidebar-nav-icon"></i>
+              <span class="sidebar-nav-text">Components</span>
             </a>
           </li>
         </ul>
@@ -2086,7 +2106,7 @@
                   type="text"
                   id="section-order"
                   class="form-input"
-                  placeholder="services-section,products-section,gallery-section,blog-section,faq-section,info-section,contact-section,custom-code-section"
+                  placeholder="services-section,products-section,gallery-section,blog-section,components-section,faq-section,info-section,contact-section"
                 />
               </div>
               <button
@@ -2101,30 +2121,24 @@
           </div>
         </section>
 
-        <!-- Custom Code Section -->
-        <section id="custom-code-section" class="section hidden">
+        <!-- Components Section -->
+        <section id="components-section" class="section hidden">
           <div class="card">
             <div class="card-header">
-              <h2 class="card-title">Custom Code</h2>
+              <h2 class="card-title">Components</h2>
             </div>
-            <form id="custom-code-form">
-              <div class="form-group">
-                <label for="custom-code" class="form-label">HTML/JS/CSS</label>
-                <textarea
-                  id="custom-code"
-                  class="form-textarea"
-                  placeholder="&lt;script&gt;console.log('hi')&lt;/script&gt;"
-                ></textarea>
-              </div>
-              <button
-                type="submit"
-                class="button primary-button"
-                id="save-custom-code-button"
-              >
-                <span id="custom-code-loading" class="loading hidden"></span>
-                <span id="custom-code-button-text">Save Changes</span>
-              </button>
-            </form>
+            <div class="components-list" id="components-list"></div>
+            <button class="button primary-button" id="add-component-button">
+              Add Component
+            </button>
+            <button
+              type="button"
+              class="button primary-button"
+              id="save-components-button"
+            >
+              <span id="components-loading" class="loading hidden"></span>
+              <span id="components-button-text">Save Changes</span>
+            </button>
           </div>
         </section>
       </main>
@@ -2416,16 +2430,12 @@
       const orderLoading = document.getElementById("order-loading");
       const orderButtonText = document.getElementById("order-button-text");
 
-      // Custom Code Elements
-      const customCodeForm = document.getElementById("custom-code-form");
-      const customCodeInput = document.getElementById("custom-code");
-      const saveCustomCodeButton = document.getElementById(
-        "save-custom-code-button"
-      );
-      const customCodeLoading = document.getElementById("custom-code-loading");
-      const customCodeButtonText = document.getElementById(
-        "custom-code-button-text"
-      );
+      // Components Elements - NEW
+      const componentsList = document.getElementById("components-list");
+      const addComponentButton = document.getElementById("add-component-button");
+      const saveComponentsButton = document.getElementById("save-components-button");
+      const componentsLoading = document.getElementById("components-loading");
+      const componentsButtonText = document.getElementById("components-button-text");
 
       // Service Icons List
       const serviceIcons = [
@@ -2594,6 +2604,7 @@
         contactInfo: [],
         faqs: [],
         galleryImages: [],
+        components: [],
       };
 
       // Check if user is logged in
@@ -2840,7 +2851,7 @@
         updateColorPreviews(data);
 
         sectionOrderInput.value = (data.sectionOrder || []).join(",");
-        customCodeInput.value = data.customCode || "";
+        loadComponentsAdmin(data.components || []);
 
         // Contact section
         contactEmailInput.value = data.contactEmail || "";
@@ -4283,17 +4294,120 @@
         }
       });
 
-      // Custom code form
-      customCodeForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
+      // Components management
+      addComponentButton.addEventListener("click", () => {
+        addComponentItem({
+          type: "custom",
+          enabled: true,
+          title: "",
+          text: "",
+          buttonText: "",
+          buttonUrl: "",
+          icon: "",
+          color: "",
+          image: "",
+        });
+      });
+
+      function addComponentItem(comp) {
+        const wrapper = document.createElement("div");
+        wrapper.className = "component-admin-item";
+
+        const enabledLabel = document.createElement("label");
+        enabledLabel.textContent = "Enabled ";
+        const enabledInput = document.createElement("input");
+        enabledInput.type = "checkbox";
+        enabledInput.className = "comp-enabled";
+        if (comp.enabled) enabledInput.checked = true;
+        enabledLabel.appendChild(enabledInput);
+        wrapper.appendChild(enabledLabel);
+
+        const titleInput = document.createElement("input");
+        titleInput.type = "text";
+        titleInput.className = "comp-title";
+        titleInput.placeholder = "Title";
+        titleInput.value = comp.title || "";
+        wrapper.appendChild(titleInput);
+
+        const textArea = document.createElement("textarea");
+        textArea.className = "comp-text";
+        textArea.placeholder = "Text";
+        textArea.value = comp.text || "";
+        wrapper.appendChild(textArea);
+
+        const btnText = document.createElement("input");
+        btnText.type = "text";
+        btnText.className = "comp-buttonText";
+        btnText.placeholder = "Button Text";
+        btnText.value = comp.buttonText || "";
+        wrapper.appendChild(btnText);
+
+        const btnUrl = document.createElement("input");
+        btnUrl.type = "text";
+        btnUrl.className = "comp-buttonUrl";
+        btnUrl.placeholder = "Button URL";
+        btnUrl.value = comp.buttonUrl || "";
+        wrapper.appendChild(btnUrl);
+
+        const iconInput = document.createElement("input");
+        iconInput.type = "text";
+        iconInput.className = "comp-icon";
+        iconInput.placeholder = "Icon";
+        iconInput.value = comp.icon || "";
+        wrapper.appendChild(iconInput);
+
+        const colorInput = document.createElement("input");
+        colorInput.type = "text";
+        colorInput.className = "comp-color";
+        colorInput.placeholder = "Color";
+        colorInput.value = comp.color || "";
+        wrapper.appendChild(colorInput);
+
+        const imageInput = document.createElement("input");
+        imageInput.type = "text";
+        imageInput.className = "comp-image";
+        imageInput.placeholder = "Image URL";
+        imageInput.value = comp.image || "";
+        wrapper.appendChild(imageInput);
+
+        const actions = document.createElement("div");
+        actions.className = "component-actions";
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "button danger-button";
+        deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+        deleteBtn.addEventListener("click", () => wrapper.remove());
+        actions.appendChild(deleteBtn);
+        wrapper.appendChild(actions);
+
+        componentsList.appendChild(wrapper);
+      }
+
+      function loadComponentsAdmin(comps) {
+        componentsList.innerHTML = "";
+        comps.forEach((c) => addComponentItem(c));
+      }
+
+      saveComponentsButton.addEventListener("click", async () => {
+        const components = [];
+        componentsList.querySelectorAll(".component-admin-item").forEach((el) => {
+          components.push({
+            enabled: el.querySelector(".comp-enabled").checked,
+            title: el.querySelector(".comp-title").value,
+            text: el.querySelector(".comp-text").value,
+            buttonText: el.querySelector(".comp-buttonText").value,
+            buttonUrl: el.querySelector(".comp-buttonUrl").value,
+            icon: el.querySelector(".comp-icon").value,
+            color: el.querySelector(".comp-color").value,
+            image: el.querySelector(".comp-image").value,
+            type: "custom",
+          });
+        });
 
         try {
           const token = checkAuthStatus();
-
-          // Show loading state
-          saveCustomCodeButton.disabled = true;
-          customCodeLoading.classList.remove("hidden");
-          customCodeButtonText.textContent = "Saving...";
+          saveComponentsButton.disabled = true;
+          componentsLoading.classList.remove("hidden");
+          componentsButtonText.textContent = "Saving...";
 
           const response = await fetch("/api/profile", {
             method: "PUT",
@@ -4302,30 +4416,25 @@
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              customCode: customCodeInput.value,
+              components,
             }),
           });
 
           if (!response.ok) {
-            throw new Error("Failed to update custom code");
+            throw new Error("Failed to update components");
           }
 
           const data = await response.json();
           profileData = data.profile;
 
-          showNotification(
-            "success",
-            "Success",
-            "Custom code updated successfully"
-          );
+          showNotification("success", "Success", "Components updated successfully");
         } catch (error) {
-          console.error("Error updating custom code:", error);
-          showNotification("error", "Error", "Failed to update custom code");
+          console.error("Error updating components:", error);
+          showNotification("error", "Error", "Failed to update components");
         } finally {
-          // Reset button state
-          saveCustomCodeButton.disabled = false;
-          customCodeLoading.classList.add("hidden");
-          customCodeButtonText.textContent = "Save Changes";
+          saveComponentsButton.disabled = false;
+          componentsLoading.classList.add("hidden");
+          componentsButtonText.textContent = "Save Changes";
         }
       });
 
