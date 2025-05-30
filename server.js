@@ -88,7 +88,12 @@ function optimizeImageBuffer(buffer, mimetype) {
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGO_URL || "")
+  .connect(
+    process.env.MONGO_URL ||
+
+      "mongodb://localhost:27017/customweb"
+
+  )
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err))
 
@@ -162,6 +167,7 @@ const componentSchema = new mongoose.Schema({
   bgColor: { type: String },
   textColor: { type: String },
   videoUrl: { type: String }
+
 })
 
 // Profile Schema
