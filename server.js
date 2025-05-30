@@ -91,7 +91,9 @@ const mongoUrl =
   process.env.MONGO_URL || "mongodb://localhost:27017/customweb";
 
 mongoose
+
   .connect(mongoUrl)
+
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err))
 
@@ -162,6 +164,7 @@ const componentSchema = new mongoose.Schema({
   image: { type: String },
   icon: { type: String },
   color: { type: String }
+
 })
 
 // Profile Schema
@@ -196,18 +199,31 @@ const profileSchema = new mongoose.Schema({
   infoSectionTitle: { type: String, default: "Contact Information" },
   faqSectionTitle: { type: String, default: "Frequently Asked Questions" },
   contactSectionTitle: { type: String, default: "Contact Me" },
+  testimonialsSectionTitle: { type: String, default: "Testimonials" },
+  pricingSectionTitle: { type: String, default: "Pricing" },
+  statsSectionTitle: { type: String, default: "Our Stats" },
   sectionOrder: {
     type: [String],
     default: [
-      "links-section",
       "services-section",
       "products-section",
       "blog-section",
       "components-section",
       "gallery-section",
+      "testimonials-section",
+      "countdown-section",
+      "pricing-section",
+      "video-section",
+      "newsletter-section",
+      "stats-section",
+      "quote-section",
+      "resources-section",
+      "map-section",
       "info-section",
       "faq-section",
-      "contact-section"
+      "contact-section",
+      "footer-section",
+      "custom-code-section"
     ]
   },
   customCode: { type: String, default: "" },
@@ -220,7 +236,9 @@ const profileSchema = new mongoose.Schema({
   contactInfo: [contactInfoSchema],
   faqs: [faqSchema],
   galleryImages: [{ type: String }],
+
   components: [componentSchema],
+
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 })
@@ -292,16 +310,27 @@ async function initializeDefaultProfile() {
         infoSectionTitle: "Contact Information",
         faqSectionTitle: "Frequently Asked Questions",
         contactSectionTitle: "Contact Me",
+        // Default ordering mirrors the placeholder shown in the admin UI.
         sectionOrder: [
-          "links-section",
           "services-section",
           "products-section",
           "blog-section",
           "components-section",
           "gallery-section",
+          "testimonials-section",
+          "countdown-section",
+          "pricing-section",
+          "video-section",
+          "newsletter-section",
+          "stats-section",
+          "quote-section",
+          "resources-section",
+          "map-section",
           "info-section",
           "faq-section",
-          "contact-section"
+          "contact-section",
+          "footer-section",
+          "custom-code-section"
         ],
         customCode: "",
         showContactForm: true,
@@ -392,7 +421,9 @@ async function initializeDefaultProfile() {
           "/images/gallery-2.jpg",
           "/images/gallery-3.jpg"
         ],
+
         components: []
+
       })
       
       await defaultProfile.save()
@@ -500,6 +531,7 @@ app.put("/api/profile", authenticate, conditionalUpload("profileImage"), async (
       contactInfoCardColor,
       sectionOrder,
       customCode,
+
       components,
       showContactForm,
       servicesSectionTitle,
@@ -552,9 +584,11 @@ app.put("/api/profile", authenticate, conditionalUpload("profileImage"), async (
     if (contactInfoCardColor) profile.contactInfoCardColor = contactInfoCardColor
     if (sectionOrder) profile.sectionOrder = Array.isArray(sectionOrder) ? sectionOrder : sectionOrder.split(',')
     if (customCode !== undefined) profile.customCode = customCode
+
     if (components !== undefined) {
       profile.components = Array.isArray(components) ? components : []
     }
+
     
     // Update contact settings
     if (contactEmail) profile.contactEmail = contactEmail
